@@ -3,7 +3,12 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			//if anyone finds out how to make these an object, hmu
+			mastodonCode : string | null
+			mastodonUsername : string | null
+			mastodonEmail : string | null
+		}
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}

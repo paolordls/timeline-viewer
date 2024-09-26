@@ -1,7 +1,7 @@
 import { MASTODON_CLIENT_ID, MASTODON_CLIENT_SECRET, MASTODON_REDIRECT_URI } from '$env/static/private';
-import { page } from '$app/stores';
+import type { PageServerLoad } from './$types';
 
-export async function load({ url } : {url:URL}) {
+export const load: PageServerLoad = ({locals, cookies}) => {
     // const mastodonAccess = new FormData();
     // mastodonAccess.append("client_id", MASTODON_CLIENT_ID)
     // mastodonAccess.append("client_secret", MASTODON_CLIENT_SECRET)
@@ -25,12 +25,7 @@ export async function load({ url } : {url:URL}) {
     //             throw new Error("Access token is invalid.")
     //     })
 
-    //check if there's a code in the link
-    if (url.searchParams.has("code"))
-        console.log(url.searchParams.get("code"))
-
     //create link for mastodon login
-    console.log(MASTODON_REDIRECT_URI)
     let mastodonLoginLink = "https://mastodon.social/oauth/authorize?" + new URLSearchParams({
         client_id: MASTODON_CLIENT_ID,
         response_type: "code",
