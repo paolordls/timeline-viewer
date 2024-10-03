@@ -1,4 +1,4 @@
-import { MASTODON_CLIENT_ID, MASTODON_CLIENT_SECRET, MASTODON_REDIRECT_URI } from '$env/static/private';
+import { MASTODON_CLIENT_ID, MASTODON_CLIENT_SECRET, SITE_URI } from '$env/static/private';
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals, cookies }) => {
@@ -31,7 +31,7 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
         const mastodonAccess = new FormData();
         mastodonAccess.append("client_id", MASTODON_CLIENT_ID)
         mastodonAccess.append("client_secret", MASTODON_CLIENT_SECRET)
-        mastodonAccess.append("redirect_uri", MASTODON_REDIRECT_URI)
+        mastodonAccess.append("redirect_uri", SITE_URI)
         mastodonAccess.append("grant_type", "authorization_code")
         mastodonAccess.append("code", locals.mastodonCode)
 

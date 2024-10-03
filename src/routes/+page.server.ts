@@ -1,4 +1,4 @@
-import { MASTODON_CLIENT_ID, MASTODON_CLIENT_SECRET, MASTODON_REDIRECT_URI } from '$env/static/private';
+import { MASTODON_CLIENT_ID, MASTODON_CLIENT_SECRET, SITE_URI } from '$env/static/private';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = ({locals, cookies}) => {
@@ -29,7 +29,7 @@ export const load: PageServerLoad = ({locals, cookies}) => {
     let mastodonLoginLink = "https://mastodon.social/oauth/authorize?" + new URLSearchParams({
         client_id: MASTODON_CLIENT_ID,
         response_type: "code",
-        redirect_uri: MASTODON_REDIRECT_URI
+        redirect_uri: SITE_URI
     }).toString()
 
     return {
