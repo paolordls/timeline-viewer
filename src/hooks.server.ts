@@ -11,6 +11,15 @@ export const handle: Handle = async ({ event, resolve }) => {
         redirect(303, "/")
     }
 
+    if (event.url.pathname === "/logoutBluesky") {
+        event.cookies.delete("bskyToken", { path: "/" })
+        event.cookies.delete("bskyRefreshToken", { path: "/" })
+        event.cookies.delete("bskyDid", { path: "/" })
+        redirect(303, "/")
+
+        // TO DO: delete session
+    }
+
 	const response = await resolve(event);
 	return response;
 };
