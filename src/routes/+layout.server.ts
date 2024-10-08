@@ -66,6 +66,31 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
             })
     }
 
+    // BLUESKY
+
+    //check if the cookie is set before checking the code
+    //so it only works once
+    if (cookies.get("bskyToken") && cookies.get("bskyDid")) {
+        await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${cookies.get("bskyDid")}`, {
+        })
+            .then(res => res.json())
+            .then(res => {
+                userInfo = {
+                    ...userInfo,
+                    bskyDid: res.did,
+                    bskyHandle: res.handle,
+                    bskyDisplayName: res.displayName
+                }
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
+
+    // TO DO: check token expiry and refresh
+    //  
+
+
     return {
         ...userInfo
     }
