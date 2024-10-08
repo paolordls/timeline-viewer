@@ -35,21 +35,24 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
         mastodonAccess.append("grant_type", "authorization_code")
         mastodonAccess.append("code", locals.mastodonCode)
 
+        let accessToken : string | null = null
         await fetch("https://mastodon.social/oauth/token", {
             method: "POST",
             body: mastodonAccess
         })
             .then(res => res.json())
-            .then(res => fetch("https://mastodon.social/api/v1/accounts/verify_credentials", { //verify access token
+            .then(res => {
+                accessToken = res.access_token
+                return fetch("https://mastodon.social/api/v1/accounts/verify_credentials", { //verify access token
                 headers: {
                     "Authorization": `Bearer ${res.access_token}`
                 }
-            }))
+            })})
             .then(res => res.json())
             .then(res => {
                 console.log(res)
                 if (res.id) { //set if correct
-                    cookies.set("mastodonToken", res.access_token, { path: "/" })
+                    cookies.set("mastodonToken", accessToken, { path: "/" })
                     cookies.set("mastodonId", res.id, { path: "/" })
                     userInfo = {
                         ...userInfo,
@@ -57,6 +60,7 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
                         mastodonAcct: res.acct,
                         mastodonDisplayName: res.display_name
                     }
+                    console.log(cookies.get("mastodonToken"))
                 }
                 else throw new Error("Access token is invalid.")
             })
