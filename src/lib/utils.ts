@@ -60,3 +60,32 @@ export const flyAndScale = (
 		easing: cubicOut
 	};
 };
+
+export function formatRelativeTime(date: Date): string {
+	const now = new Date();
+	const diff = now.getTime() - date.getTime(); // Difference in milliseconds
+  
+	const seconds = Math.floor(diff / 1000);
+	const minutes = Math.floor(seconds / 60);
+	const hours = Math.floor(minutes / 60);
+	const days = Math.floor(hours / 24);
+	const months = Math.floor(days / 30);  // Approximation for months
+	const years = Math.floor(days / 365);  // Approximation for years
+  
+	if (years > 0) return `${years}y`;
+	if (months > 0) return `${months}m`;
+	if (days > 0) return `${days}d`;
+	if (hours > 0) return `${hours}h`;
+	if (minutes > 0) return `${minutes}m`;
+	return `${seconds}s`;
+};
+
+export function abbreviateNumber(value: number): string {
+	if (value >= 1_000_000) {
+	  return (value / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M'; // 1M+
+	} else if (value >= 1_000) {
+	  return (value / 1_000).toFixed(1).replace(/\.0$/, '') + 'K'; // 1K+
+	} else {
+	  return value.toString(); // Less than 1K
+	}
+};

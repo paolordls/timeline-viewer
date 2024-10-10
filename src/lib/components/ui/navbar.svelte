@@ -1,4 +1,4 @@
-<nav class="bg-inherit text-white p-4 border-b-2 border-solid border-gray-200">
+<nav class="bg-inherit text-white p-4 border-b-2 border-solid border-gray-200 w-screen">
     <div class="flex flex-row items-center place-content-between">
         <img src="/pfp.svg" alt="Profile" class="w-10 h-10" />
         <img src="/clock.svg" alt="Icon" class="w-12 h-12" />
