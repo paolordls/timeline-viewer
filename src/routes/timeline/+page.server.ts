@@ -7,7 +7,7 @@ const dummyPosts: Post[] = [
       posterDisplayName: "Paolo",
       posterUsername: "@paolo.bsky",
       postDateTime: new Date("2024-10-10T14:30:00"),
-      postText: "I frickin love Software Engineering III. I'm super thrilled to learn about Mastodon and Bluesky.",
+      postText: "I frickin <strong>love</strong> Software Engineering III. I'm super thrilled to learn about Mastodon and Bluesky.",
       postEmbeds: [],
       postHashtags: [],
       postEngagement: {

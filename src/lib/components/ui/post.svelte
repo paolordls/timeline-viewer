@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <p class="text-base font-light text-current">{post.postText}</p>
+            <p class="text-base font-light text-current">{@html post.postText}</p>
 
             <div class="flex flex-row justify-between w-full">
                 <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
