@@ -35,7 +35,7 @@
                     <span class="text-base font-light min-w-fit"> ⋅ {dateTime}</span>
                 </div>
                 <div class="flex flex-row w-auto items-center gap-1">
-                    <span class="text-xs font-extralight min-w-fit">via {post.platform}</span>
+                    <a class="underline text-xs font-extralight min-w-fit italic" href={post.originalPostLink}>via {post.platform}</a>
                     <Button size="icon" variant="ghost">
                         <EllipsisVertical class="h-4 w-4"/>
                     </Button>
