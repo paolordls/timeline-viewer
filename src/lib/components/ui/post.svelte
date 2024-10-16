@@ -36,9 +36,6 @@
                 </div>
                 <div class="flex flex-row w-auto items-center gap-1">
                     <a class="underline text-xs font-extralight min-w-fit italic" href={post.originalPostLink}>via {post.platform}</a>
-                    <Button size="icon" variant="ghost">
-                        <EllipsisVertical class="h-4 w-4"/>
-                    </Button>
                 </div>
             </div>
 
@@ -66,5 +63,9 @@
                 </Button>
             </div>
         </div>
+
+        <Button size="icon" variant="ghost" class="h-6 w-6">
+            <EllipsisVertical class="h-4 w-4"/>
+        </Button>
     </div>
 </div>
