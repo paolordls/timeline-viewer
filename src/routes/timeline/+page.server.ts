@@ -67,6 +67,30 @@ export const load: PageServerLoad = async ({cookies}) => {
         }
     }
 
+    // process bluesky timeline
+    async function getBlueskyPosts(cursor? : string) : Promise<Object[]> {
+        const params : Record<string, string> = cursor ? {
+            cursor,
+            limit: "50"
+        } : {
+            limit: "50"
+        }
+        const url = `https://bsky.social/xrpc/app.bsky.feed.getTimeline?` + new URLSearchParams(params).toString() 
+
+        return await fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${cookies.get("bskyToken")}`
+            }
+        }).then(res => {
+            if (!res.ok)
+                throw new Error("Retrieval failed")
+            return res.json()
+        }).catch(error => {
+            console.error(error.message)
+            return []
+        })
+    }
+
     //sort timeline
 
     return {
