@@ -91,9 +91,52 @@ export const load: PageServerLoad = async ({cookies}) => {
         })
     }
 
+    let blueskyTimeline : Post[] = []
+    let cursor : null | string = null
+    while (blueskyTimeline.length < 100) {
+        //get posts
+        const blueskyFeed : Object[] = cursor ? await getBlueskyPosts(cursor) : await getBlueskyPosts()
+        // console.log(blueskyFeed);
+        if (blueskyFeed.length === 0)
+            break
+
+        for (const post of blueskyFeed.feed) {
+            
+
+            //do checks
+            if (post.reply || //is a reply
+                post.reason || //repost
+                (post.post.record == "" && post.post.embed.length == 0) //no content and no embeds
+            ) 
+                continue 
+            
+            blueskyTimeline.push({
+                platform: Platform.Bluesky,
+                posterDisplayName: post.post.author.displayName,
+                posterUsername: post.post.author.handle,
+                postDateTime: new Date(post.post.record.createdAt),
+                postText: post.post.record.text,
+                postEmbeds: post.post.embed,  // URLs to embedded media
+                postHashtags: [], // Only for Mastodon
+                postEngagement: {
+                    likes: post.post.likeCount,
+                    shares: post.post.repostCount,
+                    comments: post.post.replyCount,
+                    views: 0,
+                },
+                originalPostLink: '',
+            })
+
+            console.log(post);
+        }
+    
+        cursor = blueskyFeed.cursor;
+    }
+
     //sort timeline
 
     return {
-        mastodonTimeline
+        mastodonTimeline,
+        blueskyTimeline
     }
 };
