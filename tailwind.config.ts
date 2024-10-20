@@ -15,6 +15,9 @@ const config: Config = {
 		},
 		extend: {
 			colors: {
+				kaleido: "#5276E6",
+				mastodon: "#6363FF",
+				bluesky: "#1081F7", // Another custom color
 				border: "hsl(var(--border) / <alpha-value>)",
 				input: "hsl(var(--input) / <alpha-value>)",
 				ring: "hsl(var(--ring) / <alpha-value>)",
