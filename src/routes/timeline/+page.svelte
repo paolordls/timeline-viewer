@@ -1,10 +1,13 @@
-<script>
-    export let data;
+<script lang="ts">
+	/** @type {import('./$types').PageData} */
+    import Post from "$lib/components/ui/post.svelte";
+	export let data;
 </script>
 
-<h1> Timeline </h1>
-<a class="btn" href="/">Go to login</a>
-{#each data.mastodonTimeline as status}
-<p>Username: {status.account.username}</p>
-<p>Post content: {status.content || status.reblog.content}</p>
-{/each}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="flex flex-col w-full h-full">
+    {#each data.posts as post}
+        <Post post={post} />
+    {/each}
+</div>
