@@ -1,8 +1,7 @@
 import { SITE_URI } from '$env/static/private';
 import type { PageServerLoad } from "./$types";
-import { redirect } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ locals, cookies }) => {    
+export const load: PageServerLoad = async ({ locals, cookies }) => {
     //check if the cookie is set before checking the code
     //so it only works once
     let userInfo = {}

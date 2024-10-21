@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Input } from "$lib/components/ui/input";
     import { Button } from "$lib/components/ui/button";
+    export let form;
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +11,19 @@
         <div class="space-y-4 flex flex-col items-center">
             <img src="/kaleido-logomark.svg" alt="Kaleido" class="w-24 h-24" />
         </div>
-        <div class="flex flex-col items-center justify-center gap-y-1 px-8 w-full">
-            <Input type="email" placeholder="Email" class="max-w-xs"/>
-            <Input type="password" placeholder="Password" class="max-w-xs"/>
-        </div>
-        <div class="flex flex-col items-center justify-center gap-y-1 px-8 w-full">
-            <Button class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">Sign In</Button>
-            <Button class="max-w-xs font-extralight text-xs text-gray-500 text-kaleido" variant="link">Forgot Password?</Button>
-        </div>
+        <form method="POST">
+            <div class="flex flex-col items-center justify-center gap-y-1 px-8 w-full">
+                <Input type="email" name="email" placeholder="Email" class="max-w-xs"/>
+                <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
+            </div>
+            <div class="flex flex-col items-center justify-center gap-y-1 px-8 w-full">
+                <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">Sign In</Button>
+                <Button type="button" class="max-w-xs font-extralight text-xs text-gray-500 text-kaleido" variant="link">Forgot Password?</Button>
+            </div>
+            {#if form?.error}
+                <p class="error"> Error: {form.error} </p>
+            {/if}
+        </form>
     </div>
 </div>
 
