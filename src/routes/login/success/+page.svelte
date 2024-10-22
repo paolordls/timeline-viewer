@@ -2,6 +2,7 @@
     import Navbar from "$lib/components/ui/navbar.svelte";
     import * as Dialog from "$lib/components/ui/dialog";
     import { Button } from "$lib/components/ui/button";
+    export let data
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,11 @@
 <Navbar />
 
 <div class="flex flex-col items-center justify-center h-screen">
+    {#if (data.bskyHandle || data.mastodonUsername)}
+    <span class="w-48 mb-2 text-center block">Account connected.</span>
+    {:else}
     <span class="w-48 mb-2 text-center block">No connected accounts</span>
+    {/if}
     
     <Dialog.Root>
         <Dialog.Trigger>

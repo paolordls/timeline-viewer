@@ -51,6 +51,7 @@ export const actions = {
             cookies.set("mastodonClientId", id, { path: "/" })
             cookies.set("mastodonClientSecret", secret, { path: "/" })
             cookies.set("mastodonInstance", instance, {path: "/"})
+            throw redirect(303, "/connect/bluesky")
         }).catch(error => {
             failure = error.message
         })
@@ -96,6 +97,7 @@ export const actions = {
                 cookies.set("bskyToken", res.accessJwt, { path: "/" })
                 cookies.set("bskyRefreshToken", res.refreshJwt, { path: "/" })
                 cookies.set("bskyDid", res.did, { path: "/" })
+                throw redirect(303, "/connect/bluesky")
             }
             else throw new Error("Access token is invalid.")
         })
