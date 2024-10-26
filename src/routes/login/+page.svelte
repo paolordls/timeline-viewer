@@ -10,7 +10,7 @@
         <!-- Kaleido Logo -->
         <div class="flex flex-col items-center space-y-4">
             <img src="/kaleido-logomark.svg" alt="Kaleido" class="h-24" />
-            <span class="text-center font-medium block">Log In</span>
+            <span class="text-center block">Log In</span>
         </div>
         
         <!-- Form -->
@@ -18,7 +18,7 @@
             <Input type="email" placeholder="Email" class="max-w-xs"/>
             <Input type="password" placeholder="Password" class="max-w-xs"/>
             <Button href="/login/success" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
-                Sign In
+                Log In
             </Button>
             <Button class="max-w-xs font-extralight text-xs text-kaleido" variant="link">
                 Forgot Password?

@@ -11,7 +11,7 @@
         <!-- Kaleido Logo -->
         <div class="flex flex-col items-center space-y-4">
             <img src="/kaleido-logomark.svg" alt="Kaleido" class="h-24" />
-            <span class="text-center font-medium block">Connect Account</span>
+            <span class="text-center block">Connect Account</span>
         </div>
         
         <!-- Form -->
@@ -30,7 +30,7 @@
             <TabsContent value="mastodon" class="w-full">
                 <div class="flex flex-col items-center justify-center gap-y-2 w-full">
                     <Input type="url" placeholder="URL" class="max-w-xs"/>
-                    <Button class="max-w-xs w-full bg-mastodon border-2 border-transparent hover:border-mastodon hover:bg-transparent hover:text-mastodon" href="/login/success">
+                    <Button class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido" href="/login/success">
                         Connect
                     </Button>
                 </div>    
@@ -41,7 +41,7 @@
                 <div class="flex flex-col items-center justify-center gap-y-2 w-full">
                     <Input type="email" placeholder="Email" class="max-w-xs"/>
                     <Input type="password" placeholder="Password" class="max-w-xs"/>
-                    <Button class="max-w-xs w-full bg-bluesky border-2 border-transparent hover:border-bluesky hover:bg-transparent hover:text-bluesky" href="/login/success">
+                    <Button class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido" href="/login/success">
                         Connect
                     </Button>
                 </div>
