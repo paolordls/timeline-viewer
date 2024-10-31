@@ -2,6 +2,14 @@ export enum Platform {
     Mastodon = "Mastodon",
     Bluesky = "Bluesky",
 };
+
+export enum EmbedType {
+    Link = "link",
+    Gif = "gif",
+    Video = "video",
+    Image = "image",
+    None = "none",
+}
   
 export interface Post {
     platform: Platform;
@@ -9,7 +17,7 @@ export interface Post {
     posterUsername: string;
     postDateTime: Date;
     postText: string;
-    postEmbeds: string[];  // URLs to embedded media
+    postEmbeds: PostEmbed[];  // URLs to embedded media
     postHashtags: string[]; // Only for Mastodon
     postEngagement: {
         likes: number;
@@ -19,3 +27,9 @@ export interface Post {
     };
     originalPostLink: string;
 };
+
+interface PostEmbed {
+    href: string,
+    title: string,
+    type: EmbedType
+}

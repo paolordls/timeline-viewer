@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Platform, type Post } from "$lib/models/Post";
     import { formatRelativeTime } from "$lib/utils";
+    import { IconBadge } from "$lib/components/ui/iconbadge/index.js";
     import Button from "./button/button.svelte";
     import EllipsisVertical from 'lucide-svelte/icons/ellipsis-vertical';
     import Like from 'lucide-svelte/icons/heart';
@@ -21,51 +22,36 @@
     const colorIndicator = post.platform === Platform.Mastodon ? "#563ACC" : "#4FB0FF";
 </script>
 
-<div class="flex flex-row grow h-full">
+<div class="flex flex-row w-full">
     <div class="w-2 h-auto" style="background-color: {colorIndicator}"></div>
 
-    <div class="flex flex-row grow px-4 py-2 border-b-2 border-solid border-gray-100 hover:bg-gray-100">
+    <div class="flex flex-row w-full border-b-2 px-4 py-2 border-solid border-gray-100 hover:bg-gray-100">
         <img src="/pfp.svg" alt="Profile" class="w-14 h-14" />
-        
-        <div class="flex flex-col grow px-4 gap-y-1">
-            <div class="flex flex-row items-center justify-between gap-4 min-w-0">
-                <div class="flex flex-row shrink items-center gap-2 min-w-0">
-                    <span class="text-base font-bold shrink min-w-0 line-clamp-1">{post.posterDisplayName}</span>
-                    <span class="text-base font-light truncate min-w-0 line-clamp-1">{post.posterUsername}</span>
-                    <span class="text-base font-light line-clamp-1"> ⋅ {dateTime}</span>
+
+        <div class="flex flex-col pl-4 gap-y-1 w-full">
+            <div class="flex flex-row w-full place-content-between">
+                <div class="flex flex-row gap-x-2 flex-wrap">
+                    <div class="text-base font-bold">{post.posterDisplayName}</div>
+
+                    <div class="text-sm font-light text-gray-500 line-clamp-1 self-center">{post.posterUsername} ⋅ {dateTime}</div>
                 </div>
-                <div class="flex flex-row items-center gap-1">
-                    <a class="underline text-xs font-extralight line-clamp-1 italic" href={post.originalPostLink}>via {post.platform}</a>
+                <div>
+                    <Button size="icon" variant="ghost" class="h-6 w-6">
+                        <EllipsisVertical class="h-4 w-4"/>
+                    </Button>
                 </div>
             </div>
 
             <p class="w-auto text-base font-light text-current min-w-0">{@html post.postText}</p>
 
-            <div class="flex flex-row justify-between min-w-0">
-                <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
-                    <Comment class="h-4 w-4"/>
-                    {commentCountLabel}
-                </Button>
-
-                <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
-                    <Like class="h-4 w-4"/>
-                    {likeCountLabel}
-                </Button>
-
-                <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
-                    <Share class="h-4 w-4"/>
-                    {shareCountLabel}
-                </Button>
-
-                <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
-                    <Views class="h-4 w-4"/>
-                    {viewCountLabel}
-                </Button>
+            <div class="flex flex-row flex-wrap gap-1 w-50">
+                {#each post.postEmbeds as embed}
+                    <IconBadge href={embed.href} variant="secondary" iconType={embed.type}>
+                        {embed.title}
+                    </IconBadge>
+                {/each}
+                
             </div>
         </div>
-
-        <Button size="icon" variant="ghost" class="h-6 w-6">
-            <EllipsisVertical class="h-4 w-4"/>
-        </Button>
     </div>
 </div>
