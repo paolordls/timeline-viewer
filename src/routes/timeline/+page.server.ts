@@ -16,12 +16,11 @@ const dummyPosts: Post[] = [
             type: EmbedType.Link,
         }
       ],
-      postHashtags: [],
+      postHashtags: ["ComputerScience", "IAmAGoodSoftwareEngineer"],
       postEngagement: {
         likes: 120,
         shares: 45,
         comments: 15,
-        views: 2102,
       },
       originalPostLink: "http://localhost:5173"
     },
@@ -38,12 +37,11 @@ const dummyPosts: Post[] = [
             type: EmbedType.Image,
         }
       ],
-      postHashtags: ["Decentralization", "SocialMedia"],
+      postHashtags: [],
       postEngagement: {
         likes: 95,
         shares: 32,
         comments: 18,
-        views: 4500,
       },
       originalPostLink: "https://mastodon.social/@alicesmith/987654321"
     },
@@ -65,7 +63,6 @@ const dummyPosts: Post[] = [
         likes: 72,
         shares: 22,
         comments: 12,
-        views: 3200,
       },
       originalPostLink: "https://bsky.app/@jordan.bsky/87654321"
     },
@@ -87,12 +84,11 @@ const dummyPosts: Post[] = [
             type: EmbedType.Image,
         }
       ],
-      postHashtags: ["OpenSource", "FutureTech"],
+      postHashtags: [],
       postEngagement: {
         likes: 150,
         shares: 50,
         comments: 25,
-        views: 6100,
       },
       originalPostLink: "https://mastodon.social/@techenthusiast/123456789"
     },
@@ -114,7 +110,6 @@ const dummyPosts: Post[] = [
         likes: 80,
         shares: 15,
         comments: 10,
-        views: 1500,
       },
       originalPostLink: "https://bsky.app/@samdev.bsky/12345678"
     }

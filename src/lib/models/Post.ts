@@ -23,7 +23,6 @@ export interface Post {
         likes: number;
         shares: number;
         comments: number;
-        views: number;
     };
     originalPostLink: string;
 };
