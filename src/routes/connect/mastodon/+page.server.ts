@@ -1,17 +1,8 @@
-import { SITE_URI } from '$env/static/private';
-import { error, fail, redirect, type Actions } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { SITE_URI } from "$env/static/private";
+import { fail, redirect, type Actions } from "@sveltejs/kit";
 
-export const load: PageServerLoad = async ({ cookies }) => {
-    if (cookies.get("LoggedIn") === "True")
-        redirect(303, "/login/success")
-    else
-        redirect(303, "/login")
-}
-
-/** @type {import('./$types').Actions} */
 export const actions = {
-    mastodon: async ({ request, cookies}) => {
+    default: async ({ request, cookies}) => {
         const formData = await request.formData();
         const instance = String(formData.get('instance'))
         let failure : null | string = null
@@ -51,7 +42,6 @@ export const actions = {
             cookies.set("mastodonClientId", id, { path: "/" })
             cookies.set("mastodonClientSecret", secret, { path: "/" })
             cookies.set("mastodonInstance", instance, {path: "/"})
-            throw redirect(303, "/connect/bluesky")
         }).catch(error => {
             failure = error.message
         })
@@ -67,44 +57,5 @@ export const actions = {
             return fail(401, {
                 error: "redirect invalid"
             })
-    },
-	bluesky: async ({ request, cookies }) => {
-        const formData = await request.formData();
-        const handle = String(formData.get('handle'))
-        // console.log(handle)
-
-        // get user Did using bsky handle
-        const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${handle}`);
-        const profile = await res.json();
-        
-        const bskyAccess = {
-            "identifier": profile.did, 
-			"password": String(formData.get('password')), 
-        }
-        // console.log(bskyAccess);
-
-        // request access token
-        await fetch("https://bsky.social/xrpc/com.atproto.server.createSession", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bskyAccess)
-        }).then(res => res.json())
-        .then(res => {
-            console.log(res)
-            if (res.did) { //set if correct
-                cookies.set("bskyToken", res.accessJwt, { path: "/" })
-                cookies.set("bskyRefreshToken", res.refreshJwt, { path: "/" })
-                cookies.set("bskyDid", res.did, { path: "/" })
-                throw redirect(303, "/connect/bluesky")
-            }
-            else throw new Error("Access token is invalid.")
-        })
-        .catch(error => {
-            //do something
-            console.error(error)
-        })
-		
-	}
-} satisfies Actions;
+    }
+} satisfies Actions

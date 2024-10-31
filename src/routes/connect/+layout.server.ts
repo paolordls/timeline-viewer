@@ -1,7 +1,7 @@
 import { SITE_URI } from '$env/static/private';
 import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ locals, cookies }) => {    
+export const load: PageServerLoad = async ({ locals, cookies }) => {
     //check if the cookie is set before checking the code
     //so it only works once
     let userInfo = {}
@@ -60,6 +60,7 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
                         mastodonAcct: res.acct,
                         mastodonDisplayName: res.display_name
                     }
+                    console.log(cookies.get("mastodonToken"))
                 }
                 else throw new Error("Access token is invalid.")
             })

@@ -2,11 +2,31 @@ import { SITE_URI } from '$env/static/private';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ cookies }) => {
-    if (cookies.get("LoggedIn") === "True")
-        redirect(303, "/login/success")
-    else
-        redirect(303, "/login")
+export const load: PageServerLoad = ({locals, cookies}) => {
+    // const mastodonAccess = new FormData();
+    // mastodonAccess.append("client_id", MASTODON_CLIENT_ID)
+    // mastodonAccess.append("client_secret", MASTODON_CLIENT_SECRET)
+    // mastodonAccess.append("redirect_uri", "urn:ietf:wg:oauth:2.0:oob")
+    // mastodonAccess.append("grant_type", "client_credentials")
+
+    // //get access token
+    // let accessResponse = await fetch("https://mastodon.social/oauth/token", {
+    //     method: "POST",
+    //     body: mastodonAccess    
+    // }).then(res => res.json())
+
+    // //double check if access token is okay
+    // await fetch("https://mastodon.social/api/v1/apps/verify_credentials", {
+    //     headers: {
+    //         "Authorization": `Bearer ${accessResponse.access_token}`
+    //     }
+    // }).then(res => res.json())
+    //     .then(res => {
+    //         if (!res.id)
+    //             throw new Error("Access token is invalid.")
+    //     })
+
+    //create link for mastodon login
 }
 
 /** @type {import('./$types').Actions} */
@@ -51,7 +71,6 @@ export const actions = {
             cookies.set("mastodonClientId", id, { path: "/" })
             cookies.set("mastodonClientSecret", secret, { path: "/" })
             cookies.set("mastodonInstance", instance, {path: "/"})
-            throw redirect(303, "/connect/bluesky")
         }).catch(error => {
             failure = error.message
         })
@@ -97,7 +116,6 @@ export const actions = {
                 cookies.set("bskyToken", res.accessJwt, { path: "/" })
                 cookies.set("bskyRefreshToken", res.refreshJwt, { path: "/" })
                 cookies.set("bskyDid", res.did, { path: "/" })
-                throw redirect(303, "/connect/bluesky")
             }
             else throw new Error("Access token is invalid.")
         })
