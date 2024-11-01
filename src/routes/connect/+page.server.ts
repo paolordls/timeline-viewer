@@ -36,7 +36,7 @@ export const actions = {
         const instance = String(formData.get('instance'))
         let failure : null | string = null
         let redirecturl : null | string = null
-        console.log(`instance: ${instance}`)
+        console.error(`instance: ${instance}`)
 
         //register app to instance
         const appRegisterData = new FormData();
@@ -77,30 +77,41 @@ export const actions = {
 
         if (failure)
             return fail(400, {
-                error: failure
+                error: {
+                    platform: "mastodon",
+                    message: failure
+                }
             })
 
         if (typeof redirecturl === 'string')
             throw redirect(303, redirecturl)
         else
             return fail(401, {
-                error: "redirect invalid"
+                error: {
+                    platform: "mastodon",
+                    message: "Redirect is invalid"
+                }
             })
     },
 	bluesky: async ({ request, cookies }) => {
         const formData = await request.formData();
         const handle = String(formData.get('handle'))
-        // console.log(handle)
 
         // get user Did using bsky handle
         const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${handle}`);
         const profile = await res.json();
+        if (profile.error)
+            return fail(401, {
+                error: {
+                    platform: "bluesky",
+                    message: profile.message
+                }
+            })
         
         const bskyAccess = {
             "identifier": profile.did, 
 			"password": String(formData.get('password')), 
         }
-        // console.log(bskyAccess);
 
         // request access token
         await fetch("https://bsky.social/xrpc/com.atproto.server.createSession", {
@@ -109,20 +120,36 @@ export const actions = {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(bskyAccess)
-        }).then(res => res.json())
-        .then(res => {
-            console.log(res)
-            if (res.did) { //set if correct
-                cookies.set("bskyToken", res.accessJwt, { path: "/" })
-                cookies.set("bskyRefreshToken", res.refreshJwt, { path: "/" })
-                cookies.set("bskyDid", res.did, { path: "/" })
-            }
-            else throw new Error("Access token is invalid.")
         })
-        .catch(error => {
+            .then(res => res.json())
+            .then(res => {
+                if (res.did) { //set if correct
+                    cookies.set("bskyToken", res.accessJwt, { path: "/" })
+                    cookies.set("bskyRefreshToken", res.refreshJwt, { path: "/" })
+                    cookies.set("bskyDid", res.did, { path: "/" })
+                } else if (res.error)
+                    return fail(401, {
+                        error: {
+                            platform: "bluesky",
+                            message: res.message
+                        }
+                    })
+                else return fail(401, {
+                    error: {
+                        platform: "bluesky",
+                        message: "Access token is invalid."
+                    }
+                })
+            })
+            .catch(error => {
             //do something
-            console.error(error)
-        })
+                return fail(401, {
+                    error: {
+                        platform: "bluesky",
+                        message: error.message
+                    }
+                })
+            })
 		
 	}
 } satisfies Actions;

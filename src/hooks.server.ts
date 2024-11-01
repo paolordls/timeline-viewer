@@ -13,14 +13,14 @@ export const handle: Handle = async ({ event, resolve }) => {
     if (event.url.pathname === "/logoutMastodon") {
         event.cookies.delete("mastodonToken", { path: "/" })
         event.cookies.delete("mastodonId", { path: "/" })
-        redirect(303, "/connect/mastodon")
+        redirect(303, "/connect")
     }
 
     if (event.url.pathname === "/logoutBluesky") {
         event.cookies.delete("bskyToken", { path: "/" })
         event.cookies.delete("bskyRefreshToken", { path: "/" })
         event.cookies.delete("bskyDid", { path: "/" })
-        redirect(303, "/connect/bluesky")
+        redirect(303, "/connect")
 
         // TO DO: delete session
     }

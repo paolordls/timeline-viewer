@@ -2,6 +2,9 @@
     import { Input } from "$lib/components/ui/input";
     import { Button } from "$lib/components/ui/button";
     import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs"
+    import { enhance } from "$app/forms";
+    export let form
+    export let data
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,23 +31,47 @@
             
             <!-- Mastodon -->
             <TabsContent value="mastodon" class="w-full">
-                <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                    <Input type="url" placeholder="URL" class="max-w-xs"/>
-                    <Button class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido" href="/login/success">
-                        Connect
-                    </Button>
-                </div>    
+                {#if data.mastodonUsername}
+                    <p> Display Name: {data.mastodonDisplayName}</p>
+                    <p> Username: {data.mastodonUsername}</p>
+                    <p> Account: {data.mastodonAcct} </p>
+                    <a class="btn" href="/logoutMastodon">Logout from {data.mastodonInstance}</a>
+                {:else}
+                <form method="POST" action="?/mastodon" use:enhance>
+                    <div class="flex flex-col items-center justify-center gap-y-2 w-full">
+                        <Input name="instance" placeholder="URL" class="max-w-xs"/>
+                        <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                            Connect
+                        </Button>
+                    </div>    
+                </form>
+                {/if}
+                {#if form?.error && form.error.platform === "mastodon"}
+                    <p class="error"> Error: {form.error.message} </p>
+                {/if}
             </TabsContent>
             
             <!-- Bluesky -->
             <TabsContent value="bluesky" class="w-full">
-                <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                    <Input type="email" placeholder="Email" class="max-w-xs"/>
-                    <Input type="password" placeholder="Password" class="max-w-xs"/>
-                    <Button class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido" href="/login/success">
-                        Connect
-                    </Button>
-                </div>
+                {#if data.bskyHandle}
+                    <p> Did: {data.bskyDid}</p>
+                    <p> Handle: {data.bskyHandle}</p>
+                    <p> Display Name: {data.bskyDisplayName}</p>
+                    <a class="btn" href="/logoutBluesky">Logout bluesky</a>
+                {:else}
+                <form method="POST" action="?/bluesky" use:enhance>
+                    <div class="flex flex-col items-center justify-center gap-y-2 w-full">
+                        <Input name="handle" placeholder="Handle" class="max-w-xs"/>
+                        <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
+                        <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                            Connect
+                        </Button>
+                    </div>
+                </form> 
+                {/if}
+                {#if form?.error && form.error.platform === "bluesky"}
+                    <p class="error"> {form.error.message} </p>
+                {/if}
             </TabsContent>
         </Tabs>
     </div>
