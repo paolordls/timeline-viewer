@@ -18,7 +18,7 @@
             <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full">
                 <Input type="email" name="email" placeholder="Email" class="max-w-xs"/>
                 <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
-                <Button type="submit" href="/login/success" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                     Log In
                 </Button>
                 <Button type="button" class="max-w-xs font-extralight text-xs text-kaleido" variant="link">

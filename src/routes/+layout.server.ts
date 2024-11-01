@@ -1,7 +1,11 @@
 import { SITE_URI } from '$env/static/private';
+import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ locals, cookies }) => {    
+export const load: PageServerLoad = async ({ route, locals, cookies }) => {  
+    if (cookies.get("LoggedIn") !== "True" && route.id !== "/login") 
+        redirect(303, "/login")
+    
     //check if the cookie is set before checking the code
     //so it only works once
     let userInfo = {}
@@ -92,7 +96,6 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 
     // TO DO: check token expiry and refresh
     //  
-
 
     return {
         ...userInfo,

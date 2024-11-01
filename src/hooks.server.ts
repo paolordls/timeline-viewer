@@ -5,6 +5,11 @@ export const handle: Handle = async ({ event, resolve }) => {
         event.locals.mastodonCode = event.url.searchParams.get("code")
     }
 
+    if (event.url.pathname === "/logoutKaleido") {
+        event.cookies.delete("LoggedIn", { path: "/" })
+        redirect(303, "/login")
+    }
+
     if (event.url.pathname === "/logoutMastodon") {
         event.cookies.delete("mastodonToken", { path: "/" })
         event.cookies.delete("mastodonId", { path: "/" })

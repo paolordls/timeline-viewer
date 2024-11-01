@@ -56,7 +56,7 @@
 
                 <!-- Log Out -->
                 <div class="mt-auto flex flex-col items-center">
-                    <Button href="/login" class="w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                    <Button href="/logoutKaleido" class="w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                         Log Out
                     </Button>
                 </div>

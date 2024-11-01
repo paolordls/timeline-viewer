@@ -5,8 +5,6 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ cookies }) => {
     if (cookies.get("LoggedIn") === "True")
         redirect(303, "/login/success")
-    else
-        redirect(303, "/login")
 }
 
 /** @type {import('./$types').Actions} */
