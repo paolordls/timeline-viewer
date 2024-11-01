@@ -1,6 +1,7 @@
 <script lang="ts">
     import { Input } from "$lib/components/ui/input";
     import { Button } from "$lib/components/ui/button";
+    export let form;
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,17 +13,21 @@
             <img src="/kaleido-logomark.svg" alt="Kaleido" class="h-24" />
             <span class="text-center block">Log In</span>
         </div>
-        
         <!-- Form -->
-        <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full">
-            <Input type="email" placeholder="Email" class="max-w-xs"/>
-            <Input type="password" placeholder="Password" class="max-w-xs"/>
-            <Button href="/login/success" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
-                Log In
-            </Button>
-            <Button class="max-w-xs font-extralight text-xs text-kaleido" variant="link">
-                Forgot Password?
-            </Button>
-        </div>
+        <form method="POST">
+            <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full">
+                <Input type="email" name="email" placeholder="Email" class="max-w-xs"/>
+                <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
+                <Button type="submit" href="/login/success" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                    Log In
+                </Button>
+                <Button type="button" class="max-w-xs font-extralight text-xs text-kaleido" variant="link">
+                    Forgot Password?
+                </Button>
+            </div>
+            {#if form?.error}
+                <p class="error"> Error: {form.error} </p>
+            {/if}
+        </form>
     </div>
 </div>
