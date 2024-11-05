@@ -7,7 +7,6 @@ export const actions = {
         const password = String(formData.get('password'))
 
         //TODO: hash the password :/
-        console.log(email, password)
         if (email === "test@test.com" && password === "test") {
             cookies.set("LoggedIn", "True", { path: "/" })
             redirect(303, "/login/success")
