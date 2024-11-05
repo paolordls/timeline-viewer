@@ -24,7 +24,7 @@
     <div class="w-2 h-auto" style="background-color: {colorIndicator}"></div>
 
     <div class="flex flex-row w-full border-b-2 px-4 py-2 border-solid border-gray-100 hover:bg-gray-100">
-        <img src="/pfp.svg" alt="Profile" class="w-14 h-14" />
+        <img src={post.posterProfilePicture} alt="Profile" class="w-14 h-14 rounded-full" />
 
         <div class="flex flex-col pl-4 gap-y-2 w-full">
             <div class="flex flex-col gap-y-1 w-full">
@@ -32,7 +32,7 @@
                     <div class="flex flex-row gap-x-2 flex-wrap">
                         <div class="text-base font-bold">{post.posterDisplayName}</div>
     
-                        <div class="text-sm font-light text-gray-500 line-clamp-1 self-center">{post.posterUsername} ⋅ {dateTime}</div>
+                        <div class="text-sm font-light text-gray-500 line-clamp-1 self-center">@{post.posterUsername} ⋅ {dateTime}</div>
                     </div>
                     <div>
                         <Button size="icon" variant="ghost" class="h-6 w-6">
@@ -44,13 +44,15 @@
                 <p class="w-auto text-base font-light text-current min-w-0">{@html post.postText}</p>
             </div>
             
-            <div class="flex flex-row flex-wrap gap-1">
-                {#each post.postEmbeds as embed}
-                    <IconBadge href={embed.href} variant="secondary" iconType={embed.type}>
-                        {embed.title}
-                    </IconBadge>
-                {/each} 
-            </div>
+            {#if post.postEmbeds.length > 0}
+                <div class="flex flex-row flex-wrap gap-1">
+                    {#each post.postEmbeds as embed}
+                        <IconBadge href={embed.href} variant="secondary" iconType={embed.type}>
+                            {embed.title}
+                        </IconBadge>
+                    {/each} 
+                </div>
+            {/if}
 
             {#if post.postHashtags.length > 0}
                 <div class="flex flex-row flex-wrap gap-1">

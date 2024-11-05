@@ -2,6 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
+import { EmbedType } from "$lib/models/Post";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -89,3 +90,29 @@ export function abbreviateNumber(value: number): string {
 	  return value.toString(); // Less than 1K
 	}
 };
+
+function getEmbedType(url: string): EmbedType {
+	if (url.match(/\.(jpeg|jpg|png|gif)$/i)) {
+		return EmbedType.Image;
+	} else if (url.match(/\.(mp4|webm|ogg)$/i)) {
+		return EmbedType.Video;
+	} else if (url.includes("gif")) {
+		return EmbedType.Gif;
+	} else if (url.startsWith("http")) {
+		return EmbedType.Link;
+	}
+	return EmbedType.None;
+}
+
+function getTitle(url: string): string {
+	const urlObj = new URL(url);
+	const pathname = urlObj.pathname;
+
+	// Use only last part of the path
+	const filename = pathname.split('/').pop();
+
+	if (filename && filename.includes('.')) {
+		return decodeURIComponent(filename.split('.').slice(0, -1).join('.'));
+	}
+	return urlObj.hostname;
+}

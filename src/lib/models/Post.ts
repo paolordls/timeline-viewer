@@ -15,6 +15,7 @@ export interface Post {
     platform: Platform;
     posterDisplayName: string;
     posterUsername: string;
+    posterProfilePicture: string;
     postDateTime: Date;
     postText: string;
     postEmbeds: PostEmbed[];  // URLs to embedded media
@@ -27,7 +28,7 @@ export interface Post {
     originalPostLink: string;
 };
 
-interface PostEmbed {
+export interface PostEmbed {
     href: string,
     title: string,
     type: EmbedType

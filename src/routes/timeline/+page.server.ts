@@ -1,6 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
-import { Platform, EmbedType, type Post,  } from "$lib/models/Post";
+import { Platform, EmbedType, type Post, type PostEmbed } from "$lib/models/Post";
+import { getEmbedType, getTitle } from "$lib/utils";
 
 const dummyPosts: Post[] = [
     {
@@ -207,15 +208,16 @@ export const load: PageServerLoad = async ({cookies}) => {
                 platform: Platform.Bluesky,
                 posterDisplayName: post.post.author.displayName,
                 posterUsername: post.post.author.handle,
+                posterProfilePicture: post.post.author.avatar,
                 postDateTime: new Date(post.post.record.createdAt),
                 postText: post.post.record.text,
-                postEmbeds: post.post.embed,  // URLs to embedded media
+                // postEmbeds: post.post.embed,  // URLs to embedded media
+                postEmbeds: [],
                 postHashtags: [], // Only for Mastodon
                 postEngagement: {
                     likes: post.post.likeCount,
                     shares: post.post.repostCount,
                     comments: post.post.replyCount,
-                    views: 0,
                 },
                 originalPostLink: '',
             })
