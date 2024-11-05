@@ -9,7 +9,7 @@ export const actions = {
         //TODO: hash the password :/
         if (email === "test@test.com" && password === "test") {
             cookies.set("LoggedIn", "True", { path: "/" })
-            redirect(303, "/login/success")
+            redirect(303, "/timeline")
         }
         else
             return fail(400, { error: "Incorrect email or password." })

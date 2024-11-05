@@ -3,5 +3,5 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ cookies }) => {
     if (cookies.get("LoggedIn") === "True")
-        redirect(303, "/login/success")
+        redirect(303, "/timeline")
 }

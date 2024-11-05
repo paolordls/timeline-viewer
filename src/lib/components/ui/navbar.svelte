@@ -36,9 +36,9 @@
                         <Sheet.Header class="font-medium">
                             Accounts
                         </Sheet.Header>
-                        <button class="p-0 bg-transparent hover:bg-transparent">
+                        <a href="/connect" class="p-0 bg-transparent hover:bg-transparent">
                             <FilePenLine class="w-6 h-6 text-kaleido" strokeWidth={2}/>
-                        </button>
+                        </a>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
                         <Button class="w-full h-full bg-transparent border-2 border-mastodon text-mastodon py-8 hover:bg-transparent" variant="link">

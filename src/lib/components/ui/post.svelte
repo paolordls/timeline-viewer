@@ -41,7 +41,11 @@
                     </div>
                 </div>
 
+                {#if post.platform === Platform.Mastodon}
                 <p class="w-auto text-base font-light text-current min-w-0">{@html post.postText}</p>
+                {:else}
+                <p class="w-auto text-base font-light text-current min-w-0">{post.postText}</p>
+                {/if}
             </div>
             
             {#if post.postEmbeds.length > 0}
