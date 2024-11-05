@@ -139,6 +139,8 @@ export const load: PageServerLoad = async ({ cookies }) => {
 
         for (const post of mastodonPosts) {
             //do checks
+            if (post.tags)
+                console.log(post.tags)
             max_id = post.id
             if (post.in_reply_to_id || //is a reply
                 post.reblog || //reblog
@@ -146,14 +148,40 @@ export const load: PageServerLoad = async ({ cookies }) => {
             )
                 continue
 
+            //handle embeds
+            let embeds: PostEmbed[] = []
+            let counts = {
+                image: 0, //TODO: pull filename of embeds
+                file: 0,
+                video: 0
+            }
+            for (const embed of post.media_attachments) {
+                switch (embed.type) {
+                    case 'image':
+                        embeds.push({
+                            href: embeds.url,
+                            title: `Image ${counts.image}`,
+                            type: EmbedType.Image
+                        })
+                        counts.image++
+                        break;
+                }
+            }
+
+            //handle hashtags
+            let hashtags: string[] = []
+            for (const tag of post.tags)
+                hashtags.push(tag.name)
+
             mastodonTimeline.push({
                 platform: Platform.Mastodon,
                 posterDisplayName: post.account.display_name,
                 posterUsername: post.account.username,
+                posterProfilePicture: post.account.avatar,
                 postDateTime: new Date(post.created_at),
                 postText: post.content,
-                postEmbeds: post.media_attachments,  // URLs to embedded media
-                postHashtags: post.tags, // Only for Mastodon
+                postEmbeds: embeds,  // URLs to embedded media
+                postHashtags: hashtags, // Only for Mastodon
                 postEngagement: {
                     likes: post.favourites_count,
                     shares: post.reblogs_count,
