@@ -41,8 +41,11 @@
                     </Button>
                 </div>
             </div>
-
+            {#if post.platform === Platform.Mastodon}
+            <p class="text-base font-light text-current">{@html post.postText}</p>
+            {:else}
             <p class="text-base font-light text-current">{post.postText}</p>
+            {/if}
 
             <div class="flex flex-row justify-between w-full">
                 <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">

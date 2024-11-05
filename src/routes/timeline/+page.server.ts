@@ -2,6 +2,8 @@ import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
 import { Platform, type Post } from "$lib/models/Post";
 
+const maxLength = 10 //debug 
+
 const dummyPosts: Post[] = [
     {
       platform: Platform.Bluesky,
@@ -71,72 +73,76 @@ const dummyPosts: Post[] = [
 
 export const load: PageServerLoad = async ({cookies}) => {
     // return { posts: dummyPosts };
-    if (//(!cookies.get("mastodonToken") || !cookies.get("mastodonId")) &&
-        (!cookies.get("bskyToken") || !cookies.get("bskyDid")))
-        redirect(308, "/")
+    // if ((!cookies.get("mastodonToken") || !cookies.get("mastodonId")) &&
+    //     (!cookies.get("bskyToken") || !cookies.get("bskyDid")))
+    //     redirect(308, "/")
 
-    // //process mastodon timeline
-    // async function getMastodonPosts(max_id? : string) : Promise<Object[]> {
-    //     const params : Record<string, string> = max_id ? {
-    //         max_id,
-    //         limit: "40"
-    //     } : {
-    //         limit: "40"
-    //     }
-    //     const url = `https://${cookies.get("mastodonInstance")}/api/v1/timelines/home?` + new URLSearchParams(params).toString() 
+    //process mastodon timeline
+    async function getMastodonPosts(max_id?: string): Promise<Object[]> {
+        if (!cookies.get("mastodonInstance"))
+            return []
+        const params: Record<string, string> = max_id ? {
+            max_id,
+            limit: "40"
+        } : {
+            limit: "40"
+        }
+        const url = `https://${cookies.get("mastodonInstance")}/api/v1/timelines/home?` + new URLSearchParams(params).toString() 
 
-    //     return await fetch(url, {
-    //         headers: {
-    //             "Authorization": `Bearer ${cookies.get("mastodonToken")}`
-    //         }
-    //     }).then(res => {
-    //         if (!res.ok)
-    //             throw new Error("Retrieval failed")
-    //         return res.json()
-    //     }).catch(error => {
-    //         console.error(error.message)
-    //         return []
-    //     })
-    // }
+        return await fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${cookies.get("mastodonToken")}`
+            }
+        }).then(res => {
+            if (!res.ok)
+                throw new Error("Retrieval failed")
+            return res.json()
+        }).catch(error => {
+            console.error(error.message)
+            return []
+        })
+    }
     
-    // let mastodonTimeline : Post[] = []
-    // let max_id : null | string = null
-    // while (mastodonTimeline.length < 100) {
-    //     //get posts
-    //     const mastodonPosts : Object[] = max_id ? await getMastodonPosts(max_id) : await getMastodonPosts()
-    //     if (mastodonPosts.length === 0)
-    //         break
+    let mastodonTimeline: Post[] = []
+    let max_id: null | string = null
+    while (mastodonTimeline.length < maxLength) {
+        //get posts
+        const mastodonPosts: Object[] = max_id ? await getMastodonPosts(max_id) : await getMastodonPosts()
+        if (mastodonPosts.length === 0)
+            break
 
-    //     for (const post of mastodonPosts) {
-    //         //do checks
-    //         max_id = post.id
-    //         if (post.in_reply_to_id || //is a reply
-    //             post.reblog || //reblog
-    //             (post.content == "" && post.media_attachments.length == 0) //no content and no embeds
-    //         ) 
-    //             continue 
+        for (const post of mastodonPosts) {
+            //do checks
+            max_id = post.id
+            if (post.in_reply_to_id || //is a reply
+                post.reblog || //reblog
+                (post.content == "" && post.media_attachments.length == 0) //no content and no embeds
+            )
+                continue 
             
-    //         mastodonTimeline.push({
-    //             platform: Platform.Mastodon,
-    //             posterDisplayName: post.account.display_name,
-    //             posterUsername: post.account.username,
-    //             postDateTime: new Date(post.created_at),
-    //             postText: post.content,
-    //             postEmbeds: post.media_attachments,  // URLs to embedded media
-    //             postHashtags: post.tags, // Only for Mastodon
-    //             postEngagement: {
-    //                 likes: post.favourites_count,
-    //                 shares: post.reblogs_count,
-    //                 comments: post.replies_count,
-    //                 views: 0,
-    //             },
-    //             originalPostLink: post.url,
-    //         })
-    //     }
-    // }
+            mastodonTimeline.push({
+                platform: Platform.Mastodon,
+                posterDisplayName: post.account.display_name,
+                posterUsername: post.account.username,
+                postDateTime: new Date(post.created_at),
+                postText: post.content,
+                postEmbeds: post.media_attachments,  // URLs to embedded media
+                postHashtags: post.tags, // Only for Mastodon
+                postEngagement: {
+                    likes: post.favourites_count,
+                    shares: post.reblogs_count,
+                    comments: post.replies_count,
+                    views: 0,
+                },
+                originalPostLink: post.url,
+            })
+        }
+    }
 
     // process bluesky timeline
     async function getBlueskyPosts(cursor? : string) : Promise<Object[]> {
+        if (!cookies.get("bskyToken"))
+            return []
         const params : Record<string, string> = cursor ? {
             cursor,
             limit: "50"
@@ -161,7 +167,7 @@ export const load: PageServerLoad = async ({cookies}) => {
 
     let blueskyTimeline : Post[] = []
     let cursor : null | string = null
-    while (blueskyTimeline.length < 100) {
+    while (blueskyTimeline.length < maxLength) {
         //get posts
         const blueskyFeed : Object[] = cursor ? await getBlueskyPosts(cursor) : await getBlueskyPosts()
         // console.log(blueskyFeed);
@@ -169,8 +175,6 @@ export const load: PageServerLoad = async ({cookies}) => {
             break
 
         for (const post of blueskyFeed.feed) {
-            
-
             //do checks
             if (post.reply || //is a reply
                 post.reason || //repost
@@ -194,16 +198,22 @@ export const load: PageServerLoad = async ({cookies}) => {
                 },
                 originalPostLink: '',
             })
-
-            console.log(post);
         }
     
         cursor = blueskyFeed.cursor;
     }
 
+    let timeline: Post[] = mastodonTimeline.concat(blueskyTimeline)
     //sort timeline
+    timeline.sort((a: Post, b: Post): number => {
+        if (a.postDateTime < b.postDateTime)
+            return -1
+        if (a.postDateTime > b.postDateTime)
+            return 1
+        return 0
+    })
 
     return {
-        posts: blueskyTimeline
+        posts: timeline
     }
 };
