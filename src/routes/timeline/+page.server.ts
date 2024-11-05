@@ -1,77 +1,103 @@
 import { redirect } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
-import { Platform, type Post } from "$lib/models/Post";
+import { Platform, EmbedType, type Post, type PostEmbed } from "$lib/models/Post";
+import { getEmbedType, getTitle } from "$lib/utils";
 
 const maxLength = 10 //debug 
 
 const dummyPosts: Post[] = [
     {
-      platform: Platform.Bluesky,
-      posterDisplayName: "Paolo",
-      posterUsername: "@paolo.bsky",
-      postDateTime: new Date("2024-10-10T14:30:00"),
-      postText: "I frickin love Software Engineering III. I'm super thrilled to learn about Mastodon and Bluesky.",
-      postEmbeds: [],
-      postHashtags: [],
-      postEngagement: {
-        likes: 120,
-        shares: 45,
-        comments: 15,
-        views: 2102,
-      },
-      originalPostLink: "http://localhost:5173"
+        platform: Platform.Bluesky,
+        posterDisplayName: "Paolo",
+        posterUsername: "@paolo.bsky",
+        postDateTime: new Date("2024-10-10T14:30:00"),
+        postText: "I frickin <strong>love</strong> Software Engineering III. I'm super thrilled to learn about Mastodon and Bluesky.",
+        postEmbeds: [
+            {
+                href: "https://example.com/article",
+                title: "A Guide to Decentralized Social Media",
+                type: EmbedType.Link,
+            }
+        ],
+        postHashtags: ["ComputerScience", "IAmAGoodSoftwareEngineer"],
+        postEngagement: {
+            likes: 120,
+            shares: 45,
+            comments: 15,
+        },
+        originalPostLink: "http://localhost:5173"
     },
     {
-      platform: Platform.Mastodon,
-      posterDisplayName: "Alice Smith",
-      posterUsername: "@asm@mastodon.social",
-      postDateTime: new Date("2024-10-09T09:15:00"),
-      postText: "Mastodon is such a refreshing take on social media! I love decentralization and open web.",
-      postEmbeds: ["https://example.com/img3.jpg"],
-      postHashtags: ["Decentralization", "OpenWeb"],
-      postEngagement: {
-        likes: 95,
-        shares: 32,
-        comments: 18,
-        views: 4500,
-      },
-      originalPostLink: "https://mastodon.social/@alicesmith/987654321"
+        platform: Platform.Mastodon,
+        posterDisplayName: "Alice Smith",
+        posterUsername: "@asm@mastodon.social",
+        postDateTime: new Date("2024-10-09T09:15:00"),
+        postText: "Mastodon is such a refreshing take on social media! I love decentralization and open web.",
+        postEmbeds: [
+            {
+                href: "https://example.com/img3.jpg",
+                title: "Decentralization Graphic",
+                type: EmbedType.Image,
+            }
+        ],
+        postHashtags: [],
+        postEngagement: {
+            likes: 95,
+            shares: 32,
+            comments: 18,
+        },
+        originalPostLink: "https://mastodon.social/@alicesmith/987654321"
     },
     {
-      platform: Platform.Bluesky,
-      posterDisplayName: "Jordan Techie",
-      posterUsername: "@jordan.bsky",
-      postDateTime: new Date("2024-10-08T11:45:00"),
-      postText: "Exploring decentralized social networks. Bluesky has a lot of promise. #Web3 #Bluesky",
-      postEmbeds: [],
-      postHashtags: ["Web3", "Bluesky"],
-      postEngagement: {
-        likes: 72,
-        shares: 22,
-        comments: 12,
-        views: 3200,
-      },
-      originalPostLink: "https://bsky.app/@jordan.bsky/87654321"
+        platform: Platform.Bluesky,
+        posterDisplayName: "Jordan Techie",
+        posterUsername: "@jordan.bsky",
+        postDateTime: new Date("2024-10-08T11:45:00"),
+        postText: "Exploring decentralized social networks. Bluesky has a lot of promise.",
+        postEmbeds: [
+            {
+                href: "https://example.com/video.mp4",
+                title: "Bluesky Introduction",
+                type: EmbedType.Video,
+            }
+        ],
+        postHashtags: ["Web3", "Bluesky"],
+        postEngagement: {
+            likes: 72,
+            shares: 22,
+            comments: 12,
+        },
+        originalPostLink: "https://bsky.app/@jordan.bsky/87654321"
     },
     {
-      platform: Platform.Mastodon,
-      posterDisplayName: "Tech Enthusiast",
-      posterUsername: "@techie@mastodon.social",
-      postDateTime: new Date("2024-10-07T18:30:00"),
-      postText: "The future of social media is here, and it’s open source! #MastodonRocks",
-      postEmbeds: ["https://example.com/img4.jpg", "https://example.com/img5.jpg"],
-      postHashtags: ["MastodonRocks", "OpenSource"],
-      postEngagement: {
-        likes: 150,
-        shares: 50,
-        comments: 25,
-        views: 6100,
-      },
-      originalPostLink: "https://mastodon.social/@techenthusiast/123456789"
+        platform: Platform.Mastodon,
+        posterDisplayName: "Tech Enthusiast",
+        posterUsername: "@techie@mastodon.social",
+        postDateTime: new Date("2024-10-07T18:30:00"),
+        postText: "The future of social media is here, and it’s open source!",
+        postEmbeds: [
+            {
+                href: "https://example.com/img4.jpg",
+                title: "Open Source Social Media",
+                type: EmbedType.Image,
+            },
+            {
+                href: "https://example.com/img5.jpg",
+                title: "Decentralized Platforms",
+                type: EmbedType.Image,
+            }
+        ],
+        postHashtags: [],
+        postEngagement: {
+            likes: 150,
+            shares: 50,
+            comments: 25,
+        },
+        originalPostLink: "https://mastodon.social/@techenthusiast/123456789"
     }
 ];
 
-export const load: PageServerLoad = async ({cookies}) => {
+export const load: PageServerLoad = async ({ cookies }) => {
     // return { posts: dummyPosts };
     // if ((!cookies.get("mastodonToken") || !cookies.get("mastodonId")) &&
     //     (!cookies.get("bskyToken") || !cookies.get("bskyDid")))
@@ -87,7 +113,7 @@ export const load: PageServerLoad = async ({cookies}) => {
         } : {
             limit: "40"
         }
-        const url = `https://${cookies.get("mastodonInstance")}/api/v1/timelines/home?` + new URLSearchParams(params).toString() 
+        const url = `https://${cookies.get("mastodonInstance")}/api/v1/timelines/home?` + new URLSearchParams(params).toString()
 
         return await fetch(url, {
             headers: {
@@ -102,7 +128,7 @@ export const load: PageServerLoad = async ({cookies}) => {
             return []
         })
     }
-    
+
     let mastodonTimeline: Post[] = []
     let max_id: null | string = null
     while (mastodonTimeline.length < maxLength) {
@@ -118,8 +144,8 @@ export const load: PageServerLoad = async ({cookies}) => {
                 post.reblog || //reblog
                 (post.content == "" && post.media_attachments.length == 0) //no content and no embeds
             )
-                continue 
-            
+                continue
+
             mastodonTimeline.push({
                 platform: Platform.Mastodon,
                 posterDisplayName: post.account.display_name,
@@ -140,16 +166,16 @@ export const load: PageServerLoad = async ({cookies}) => {
     }
 
     // process bluesky timeline
-    async function getBlueskyPosts(cursor? : string) : Promise<Object[]> {
+    async function getBlueskyPosts(cursor?: string): Promise<Object[]> {
         if (!cookies.get("bskyToken"))
             return []
-        const params : Record<string, string> = cursor ? {
+        const params: Record<string, string> = cursor ? {
             cursor,
             limit: "50"
         } : {
             limit: "50"
         }
-        const url = `https://bsky.social/xrpc/app.bsky.feed.getTimeline?` + new URLSearchParams(params).toString() 
+        const url = `https://bsky.social/xrpc/app.bsky.feed.getTimeline?` + new URLSearchParams(params).toString()
 
         return await fetch(url, {
             headers: {
@@ -165,11 +191,11 @@ export const load: PageServerLoad = async ({cookies}) => {
         })
     }
 
-    let blueskyTimeline : Post[] = []
-    let cursor : null | string = null
+    let blueskyTimeline: Post[] = []
+    let cursor: null | string = null
     while (blueskyTimeline.length < maxLength) {
         //get posts
-        const blueskyFeed : Object[] = cursor ? await getBlueskyPosts(cursor) : await getBlueskyPosts()
+        const blueskyFeed: Object[] = cursor ? await getBlueskyPosts(cursor) : await getBlueskyPosts()
         // console.log(blueskyFeed);
         if (blueskyFeed.length === 0)
             break
@@ -179,27 +205,28 @@ export const load: PageServerLoad = async ({cookies}) => {
             if (post.reply || //is a reply
                 post.reason || //repost
                 (post.post.record == "" && post.post.embed.length == 0) //no content and no embeds
-            ) 
-                continue 
-            
+            )
+                continue
+
             blueskyTimeline.push({
                 platform: Platform.Bluesky,
                 posterDisplayName: post.post.author.displayName,
                 posterUsername: post.post.author.handle,
+                posterProfilePicture: post.post.author.avatar,
                 postDateTime: new Date(post.post.record.createdAt),
                 postText: post.post.record.text,
-                postEmbeds: post.post.embed,  // URLs to embedded media
+                // postEmbeds: post.post.embed,  // URLs to embedded media
+                postEmbeds: [],
                 postHashtags: [], // Only for Mastodon
                 postEngagement: {
                     likes: post.post.likeCount,
                     shares: post.post.repostCount,
                     comments: post.post.replyCount,
-                    views: 0,
                 },
                 originalPostLink: '',
             })
         }
-    
+
         cursor = blueskyFeed.cursor;
     }
 
