@@ -3,7 +3,6 @@
     import * as Sheet from "$lib/components/ui/sheet/index.js";
     import { Button } from "$lib/components/ui/button";
     import { RefreshCw } from 'lucide-svelte';
-    import { FilePenLine } from 'lucide-svelte';
 </script>
 
 <nav class="bg-inherit text-white p-4 border-b-2 border-solid border-gray-200 max-w-screen">
@@ -38,7 +37,6 @@
                         </Sheet.Header>
                         <Sheet.Description>
                             <a href="/connect" class="p-0 font-small text-kaleido hover:underline">
-                                <!-- <FilePenLine class="w-6 h-6 text-kaleido" strokeWidth={2}/> -->
                                 Manage
                             </a>
                         </Sheet.Description>

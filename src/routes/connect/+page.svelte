@@ -43,6 +43,9 @@
                         <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                             Connect
                         </Button>
+                        <Button type="button" class="max-w-xs font-light text-xs text-kaleido" variant="link" href="/timeline">
+                            Cancel
+                        </Button>
                     </div>    
                 </form>
                 {/if}
@@ -65,6 +68,9 @@
                         <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
                         <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                             Connect
+                        </Button>
+                        <Button type="button" class="max-w-xs font-light text-xs text-kaleido" variant="link" href="/timeline">
+                            Cancel
                         </Button>
                     </div>
                 </form> 

@@ -21,7 +21,7 @@
                 <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                     Log In
                 </Button>
-                <Button type="button" class="max-w-xs font-extralight text-xs text-kaleido" variant="link">
+                <Button type="button" class="max-w-xs font-light text-xs text-kaleido" variant="link">
                     Forgot Password?
                 </Button>
             </div>
