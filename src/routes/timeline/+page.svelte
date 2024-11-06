@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="flex flex-col w-full h-full">
+<div class="flex flex-col items-center justify-center w-full h-screen">
     {#if (data.bskyHandle || data.mastodonUsername)}
         {#if data.posts.length === 0}
             <span class="w-48 mb-2 text-center block">No posts found.</span>
@@ -18,8 +18,8 @@
         {/if}
     {:else}
         <span class="w-48 mb-2 text-center block">No connected accounts</span>
-    <Button class="w-48 bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido" href="/connect">
-        Connect
-    </Button>
+        <Button class="w-48 bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido" href="/connect">
+            Connect
+        </Button>
     {/if}
 </div>

@@ -36,20 +36,23 @@
                         <Sheet.Header class="font-medium">
                             Accounts
                         </Sheet.Header>
-                        <a href="/connect" class="p-0 bg-transparent hover:bg-transparent">
-                            <FilePenLine class="w-6 h-6 text-kaleido" strokeWidth={2}/>
-                        </a>
+                        <Sheet.Description>
+                            <a href="/connect" class="p-0 font-small text-kaleido hover:underline">
+                                <!-- <FilePenLine class="w-6 h-6 text-kaleido" strokeWidth={2}/> -->
+                                Manage
+                            </a>
+                        </Sheet.Description>
                     </div>
                     <div class="flex flex-col items-center gap-y-2">
                         <Button class="w-full h-full bg-transparent border-2 border-mastodon text-mastodon py-8 hover:bg-transparent" variant="link">
-                            Connect
-                            <img src="/mastodon-logo.svg" alt="Mastodon" class="w-1/3 ml-2 mr-2"/>
-                            Account
+                            No Mastodon account connected.
+                            <!-- <img src="/mastodon-logo.svg" alt="Mastodon" class="w-1/3 ml-2 mr-2"/> -->
+                            <br />
                         </Button>
                         <Button class="w-full h-full bg-transparent border-2 border-bluesky text-bluesky py-8 hover:bg-transparent" variant="link">
-                            Connect
-                            <img src="/bluesky-logo.svg" alt="Bluesky" class="w-1/3 ml-2 mr-2"/>
-                            Account
+                            No Bluesky account connected.
+                            <!-- <img src="/bluesky-logo.svg" alt="Bluesky" class="w-1/3 ml-2 mr-2"/> -->
+                            <br />
                         </Button>
                     </div>
                 </div>
