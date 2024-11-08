@@ -2,12 +2,28 @@
     import * as Avatar from "$lib/components/ui/avatar";
     import * as Sheet from "$lib/components/ui/sheet/index.js";
     import { Button } from "$lib/components/ui/button";
+    import { Toggle } from "$lib/components/ui/toggle";
     import { RefreshCw } from 'lucide-svelte';
+    import { Eye } from 'lucide-svelte';
+    import { EyeClosed } from 'lucide-svelte';
+
+    let isMastodonToggled = false;
+    function toggleMastodon() {
+        isMastodonToggled = !isMastodonToggled;
+    }
+
+    let isBlueskyToggled = false;
+    function toggleBluesky() {
+        isBlueskyToggled = !isBlueskyToggled;
+    }
+
+    // import { userInfo } from "$lib/routes/layout.server.ts";
 </script>
 
 <nav class="bg-inherit text-white p-4 border-b-2 border-solid border-gray-200 max-w-screen">
     <div class="flex flex-row items-center place-content-between">
         <!-- User -->
+        <!-- Sidebar -->
         <Sheet.Root>
             <Sheet.Trigger>
                 <Avatar.Root>
@@ -31,27 +47,68 @@
 
                 <!-- Accounts -->
                 <div class="flex flex-col">
-                    <div class="flex flex-row items-center place-content-between mb-4">
-                        <Sheet.Header class="font-medium">
-                            Accounts
-                        </Sheet.Header>
+                    <div class="flex flex-col mb-4">
+                        <div class="flex flex-row items-center place-content-between mb-2">
+                            <Sheet.Header class="font-medium">
+                                Accounts
+                            </Sheet.Header>
+                            <Sheet.Description>
+                                <a href="/connect" class="p-0 font-small text-kaleido hover:underline">
+                                    Manage
+                                </a>
+                            </Sheet.Description>
+                        </div>
                         <Sheet.Description>
-                            <a href="/connect" class="p-0 font-small text-kaleido hover:underline">
-                                Manage
-                            </a>
+                            To connect or disconnect an account, click Manage.
                         </Sheet.Description>
                     </div>
+
+                    <!-- Toggle -->
                     <div class="flex flex-col items-center gap-y-2">
-                        <Button class="w-full h-full bg-transparent border-2 border-mastodon text-mastodon py-8 hover:bg-transparent" variant="link">
-                            No Mastodon account connected.
-                            <!-- <img src="/mastodon-logo.svg" alt="Mastodon" class="w-1/3 ml-2 mr-2"/> -->
-                            <br />
-                        </Button>
-                        <Button class="w-full h-full bg-transparent border-2 border-bluesky text-bluesky py-8 hover:bg-transparent" variant="link">
-                            No Bluesky account connected.
-                            <!-- <img src="/bluesky-logo.svg" alt="Bluesky" class="w-1/3 ml-2 mr-2"/> -->
-                            <br />
-                        </Button>
+                        
+                        <!-- Mastodon -->
+                        <div class={`${isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-4 px-2`}>
+                            <!-- No Mastodon account connected. -->
+                            
+                            <div class="flex flex-col ml-2 mr-4">
+                                <img src="/pfp.svg" alt="Mastodon Account" class="w-10 h-10 rounded-full"/>
+                            </div>
+                            <div class="flex flex-col gap-y-0">
+                                <span class="max-w-xs">Display Name</span>
+                                <span class="max-w-xs text-sm text-muted-foreground">@username</span>
+                            </div>
+                            <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-mastodon">
+                                <Toggle aria-label="toggle visible" on:click={toggleMastodon} class="data-[state=on]:bg-transparent data-[state=on]:text-mastodon hover:bg-transparent hover:text-mastodon">
+                                    {#if isMastodonToggled}
+                                        <EyeClosed class="h-6 w-6" />
+                                    {:else}
+                                        <Eye class="h-6 w-6" />
+                                    {/if}
+                                </Toggle>
+                            </div>
+                        </div>
+
+                        <!-- Bluesky -->
+                        <div class={`${isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-4 px-2`}>
+                            <!-- No Bluesky account connected. -->
+                            
+                            <div class="flex flex-col ml-2 mr-4">
+                                <img src="/pfp.svg" alt="Bluesky Account" class="w-10 h-10 rounded-full"/>
+                            </div>
+                            <div class="flex flex-col gap-y-0">
+                                <span class="max-w-xs">Display Name</span>
+                                <span class="max-w-xs text-sm text-muted-foreground">@handle</span>
+                            </div>
+                            <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-bluesky">
+                                <Toggle aria-label="toggle visible" on:click={toggleBluesky} class="data-[state=on]:bg-transparent data-[state=on]:text-bluesky hover:bg-transparent hover:text-bluesky">
+                                    {#if isBlueskyToggled}
+                                        <EyeClosed class="h-6 w-6" />
+                                    {:else}
+                                        <Eye class="h-6 w-6" />
+                                    {/if}
+                                </Toggle>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

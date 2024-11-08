@@ -4,7 +4,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<main class="w-screen">
+<main>
     <Navbar />
     <slot />
 </main>

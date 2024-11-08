@@ -2,7 +2,8 @@
     import { Platform, type Post } from "$lib/models/Post";
     import { formatRelativeTime } from "$lib/utils";
     import { IconBadge } from "$lib/components/ui/iconbadge/index.js";
-    import Button from "./button/button.svelte";
+    import { Button } from "$lib/components/ui/button/index.js";
+    // import Button from "./button/button.svelte";
     import EllipsisVertical from 'lucide-svelte/icons/ellipsis-vertical';
     import Like from 'lucide-svelte/icons/heart';
     import Comment from 'lucide-svelte/icons/message-square';

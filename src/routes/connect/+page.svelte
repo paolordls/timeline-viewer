@@ -3,6 +3,9 @@
     import { Button } from "$lib/components/ui/button";
     import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs"
     import { enhance } from "$app/forms";
+    import * as Alert from "$lib/components/ui/alert";
+    import { CircleAlert } from 'lucide-svelte';
+    
     export let form
     export let data
 </script>
@@ -13,8 +16,7 @@
     <div class="w-2/3 h-fit bg-white self-center justify-center content-center space-y-6 py-12 rounded-lg shadow-xl">
         <!-- Kaleido Logo -->
         <div class="flex flex-col items-center space-y-4">
-            <img src="/kaleido-logomark.svg" alt="Kaleido" class="h-24" />
-            <span class="text-center block">Connect Account</span>
+            <img src="/kaleido-logo.svg" alt="Kaleido" class="h-40" />
         </div>
         
         <!-- Form -->
@@ -31,52 +33,102 @@
             
             <!-- Mastodon -->
             <TabsContent value="mastodon" class="w-full">
+                
+                <!-- Connected -->
                 {#if data.mastodonUsername}
-                    <p> Display Name: {data.mastodonDisplayName}</p>
-                    <p> Username: {data.mastodonUsername}</p>
-                    <p> Account: {data.mastodonAcct} </p>
-                    <a class="btn" href="/logoutMastodon">Logout from {data.mastodonInstance}</a>
-                {:else}
-                <form method="POST" action="?/mastodon" use:enhance>
-                    <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                        <Input name="instance" placeholder="URL" class="max-w-xs"/>
-                        <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
-                            Connect
+                <div class="flex flex-col items-center justify-center gap-y-2 w-full">
+                    <img src="/pfp.svg" alt="Profile" class="w-16 h-16 rounded-full" />
+                    <div class="flex flex-col items-center justify-center gap-y-0 w-full">
+                        <span class="max-w-xs">{data.mastodonDisplayName}</span>
+                        <span class="max-w-xs text-sm text-muted-foreground">@{data.mastodonUsername}</span>
+                    </div>
+                    <div class = "flex flex-col items-center justify-center gap-y-0 w-full">
+                        <Button href="/logoutMastodon" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                            Disconnect
                         </Button>
-                        <Button type="button" class="max-w-xs font-light text-xs text-kaleido" variant="link" href="/timeline">
+                        <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
                             Cancel
                         </Button>
+                    </div>
+                </div>
+                
+                <!-- Not Connected -->
+                {:else}
+                <form method="POST" action="?/mastodon" use:enhance>
+                    {#if form?.error && form.error.platform === "mastodon"}
+                        <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full mb-2 error">
+                            <Alert.Root variant="destructive" class="max-w-xs">
+                                <CircleAlert class="h-4 w-4" />
+                                <Alert.Title>Error</Alert.Title>
+                                <Alert.Description>
+                                    {form.error.message}
+                                </Alert.Description>
+                            </Alert.Root>
+                        </div>
+                    {/if}
+                    <div class="flex flex-col items-center justify-center gap-y-2 w-full">
+                        <Input name="instance" placeholder="URL" class="max-w-xs"/>
+                        <div class="flex flex-col items-center justify-center gap-y-0 w-full">
+                            <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                                Connect
+                            </Button>
+                            <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
+                                Cancel
+                            </Button>
+                        </div>
                     </div>    
                 </form>
-                {/if}
-                {#if form?.error && form.error.platform === "mastodon"}
-                    <p class="error"> Error: {form.error.message} </p>
                 {/if}
             </TabsContent>
             
             <!-- Bluesky -->
             <TabsContent value="bluesky" class="w-full">
+                
+                <!-- Connected -->
                 {#if data.bskyHandle}
-                    <p> Did: {data.bskyDid}</p>
-                    <p> Handle: {data.bskyHandle}</p>
-                    <p> Display Name: {data.bskyDisplayName}</p>
-                    <a class="btn" href="/logoutBluesky">Logout bluesky</a>
-                {:else}
-                <form method="POST" action="?/bluesky" use:enhance>
-                    <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                        <Input name="handle" placeholder="Handle" class="max-w-xs"/>
-                        <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
-                        <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
-                            Connect
+                <div class="flex flex-col items-center justify-center gap-y-2 w-full">
+                    <img src="/pfp.svg" alt="Profile" class="w-16 h-16 rounded-full" />
+                    <div class="flex flex-col items-center justify-center gap-y-0 w-full">
+                        <span class="max-w-xs">{data.bskyDisplayName}</span>
+                        <span class="max-w-xs text-sm text-muted-foreground">@{data.bskyHandle}</span>
+                    </div>
+                    <div class = "flex flex-col items-center justify-center gap-y-0 w-full">
+                        <Button href="/logoutBluesky" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                            Disconnect
                         </Button>
-                        <Button type="button" class="max-w-xs font-light text-xs text-kaleido" variant="link" href="/timeline">
+                        <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
                             Cancel
                         </Button>
                     </div>
+                </div>
+                
+                <!-- Not Connected -->
+                {:else}
+                <form method="POST" action="?/bluesky" use:enhance>
+                    {#if form?.error && form.error.platform === "bluesky"}
+                        <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full mb-2 error">
+                            <Alert.Root variant="destructive" class="max-w-xs">
+                                <CircleAlert class="h-4 w-4" />
+                                <Alert.Title>Error</Alert.Title>
+                                <Alert.Description>
+                                    {form.error.message}
+                                </Alert.Description>
+                            </Alert.Root>
+                        </div>
+                    {/if}
+                    <div class="flex flex-col items-center justify-center gap-y-2 w-full">
+                        <Input name="handle" placeholder="Handle" class="max-w-xs"/>
+                        <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
+                        <div class="flex flex-col items-center justify-center gap-y-0 w-full">
+                            <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                                Connect
+                            </Button>
+                            <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
+                                Cancel
+                            </Button>
+                        </div>
+                    </div>
                 </form> 
-                {/if}
-                {#if form?.error && form.error.platform === "bluesky"}
-                    <p class="error"> {form.error.message} </p>
                 {/if}
             </TabsContent>
         </Tabs>
