@@ -17,7 +17,7 @@
         isBlueskyToggled = !isBlueskyToggled;
     }
 
-    // import { userInfo } from "$lib/routes/layout.server.ts";
+    export let userInfo: object = {};
 </script>
 
 <nav class="bg-inherit text-white p-4 border-b-2 border-solid border-gray-200 max-w-screen">
@@ -67,48 +67,56 @@
                     <div class="flex flex-col items-center gap-y-2">
                         
                         <!-- Mastodon -->
-                        <div class={`${isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-4 px-2`}>
-                            <!-- No Mastodon account connected. -->
-                            
-                            <div class="flex flex-col ml-2 mr-4">
-                                <img src="/pfp.svg" alt="Mastodon Account" class="w-10 h-10 rounded-full"/>
+                        {#if userInfo.mastodonHandle}
+                            <div class={`${isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-4 px-2`}>
+                                    <div class="flex flex-col ml-2 mr-4">
+                                        <img src="/pfp.svg" alt="Mastodon Account" class="w-10 h-10 rounded-full"/>
+                                    </div>
+                                    <div class="flex flex-col gap-y-0">
+                                        <span class="max-w-xs">{userInfo.mastodonDisplayName || userInfo.mastodonHandle}</span>
+                                        <span class="max-w-xs text-sm text-muted-foreground">@{userInfo.mastodonHandle}@{userInfo.mastodonInstance}</span>
+                                    </div>
+                                    <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-mastodon">
+                                        <Toggle aria-label="toggle visible" on:click={toggleMastodon} class="data-[state=on]:bg-transparent data-[state=on]:text-mastodon hover:bg-transparent hover:text-mastodon">
+                                            {#if isMastodonToggled}
+                                                <EyeClosed class="h-6 w-6" />
+                                            {:else}
+                                                <Eye class="h-6 w-6" />
+                                            {/if}
+                                        </Toggle>
+                                    </div>
                             </div>
-                            <div class="flex flex-col gap-y-0">
-                                <span class="max-w-xs">Display Name</span>
-                                <span class="max-w-xs text-sm text-muted-foreground">@username</span>
+                        {:else}
+                            <div class='opacity-100 flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-4 px-2'>
+                                    No Mastodon account connected.
                             </div>
-                            <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-mastodon">
-                                <Toggle aria-label="toggle visible" on:click={toggleMastodon} class="data-[state=on]:bg-transparent data-[state=on]:text-mastodon hover:bg-transparent hover:text-mastodon">
-                                    {#if isMastodonToggled}
-                                        <EyeClosed class="h-6 w-6" />
-                                    {:else}
-                                        <Eye class="h-6 w-6" />
-                                    {/if}
-                                </Toggle>
-                            </div>
-                        </div>
+                        {/if}
 
                         <!-- Bluesky -->
-                        <div class={`${isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-4 px-2`}>
-                            <!-- No Bluesky account connected. -->
-                            
-                            <div class="flex flex-col ml-2 mr-4">
-                                <img src="/pfp.svg" alt="Bluesky Account" class="w-10 h-10 rounded-full"/>
+                        {#if userInfo.bskyHandle}
+                            <div class={`${isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-4 px-2`}>
+                                    <div class="flex flex-col ml-2 mr-4">
+                                        <img src="/pfp.svg" alt="Bluesky Account" class="w-10 h-10 rounded-full"/>
+                                    </div>
+                                    <div class="flex flex-col gap-y-0">
+                                        <span class="max-w-xs">Display Name</span>
+                                        <span class="max-w-xs text-sm text-muted-foreground">@handle</span>
+                                    </div>
+                                    <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-bluesky">
+                                        <Toggle aria-label="toggle visible" on:click={toggleBluesky} class="data-[state=on]:bg-transparent data-[state=on]:text-bluesky hover:bg-transparent hover:text-bluesky">
+                                            {#if isBlueskyToggled}
+                                                <EyeClosed class="h-6 w-6" />
+                                            {:else}
+                                                <Eye class="h-6 w-6" />
+                                            {/if}
+                                        </Toggle>
+                                    </div>
                             </div>
-                            <div class="flex flex-col gap-y-0">
-                                <span class="max-w-xs">Display Name</span>
-                                <span class="max-w-xs text-sm text-muted-foreground">@handle</span>
+                        {:else}
+                            <div class='opacity-100 flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-4 px-2'>
+                                    No Bluesky account connected.
                             </div>
-                            <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-bluesky">
-                                <Toggle aria-label="toggle visible" on:click={toggleBluesky} class="data-[state=on]:bg-transparent data-[state=on]:text-bluesky hover:bg-transparent hover:text-bluesky">
-                                    {#if isBlueskyToggled}
-                                        <EyeClosed class="h-6 w-6" />
-                                    {:else}
-                                        <Eye class="h-6 w-6" />
-                                    {/if}
-                                </Toggle>
-                            </div>
-                        </div>
+                        {/if}
                     </div>
                 </div>
 
