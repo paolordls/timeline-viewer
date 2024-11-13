@@ -3,9 +3,11 @@
     export let data;
     console.log(data);
     const userInfo = {
+        mastodonPicture: data.mastodonPicture,
         mastodonHandle: data.mastodonUsername,
         mastodonDisplayName: data.mastodonAcct,
         mastodonInstance: data.mastodonInstance,
+        bskyPicture: data.bskyPicture,
         bskyHandle: data.bskyHandle,
         bskyDisplayName: data.bskyDisplayName
     }

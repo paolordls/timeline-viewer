@@ -20,7 +20,7 @@
     export let userInfo: object = {};
 </script>
 
-<nav class="bg-inherit text-white p-4 border-b-2 border-solid border-gray-200 max-w-screen">
+<nav class="sticky top-0 left-0 right-0 bg-white text-white p-4 border-b-2 border-solid border-gray-200 max-w-screen">
     <div class="flex flex-row items-center place-content-between">
         <!-- User -->
         <!-- Sidebar -->
@@ -68,9 +68,9 @@
                         
                         <!-- Mastodon -->
                         {#if userInfo.mastodonHandle}
-                            <div class={`${isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-4 px-2`}>
+                            <div class={`${isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-6 px-2`}>
                                     <div class="flex flex-col ml-2 mr-4">
-                                        <img src="/pfp.svg" alt="Mastodon Account" class="w-10 h-10 rounded-full"/>
+                                        <img src={userInfo.mastodonPicture} alt="Mastodon Account" class="w-10 h-10 rounded-full"/>
                                     </div>
                                     <div class="flex flex-col gap-y-0">
                                         <span class="max-w-xs">{userInfo.mastodonDisplayName || userInfo.mastodonHandle}</span>
@@ -87,20 +87,20 @@
                                     </div>
                             </div>
                         {:else}
-                            <div class='opacity-100 flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-4 px-2'>
+                            <div class='opacity-50 flex flex-col w-full h-full text-center bg-transparent border-2 border-mastodon rounded-md text-mastodon text-sm py-8 px-2'>
                                     No Mastodon account connected.
                             </div>
                         {/if}
 
                         <!-- Bluesky -->
                         {#if userInfo.bskyHandle}
-                            <div class={`${isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-4 px-2`}>
+                            <div class={`${isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-6 px-2`}>
                                     <div class="flex flex-col ml-2 mr-4">
-                                        <img src="/pfp.svg" alt="Bluesky Account" class="w-10 h-10 rounded-full"/>
+                                        <img src={userInfo.bskyPicture} alt="Bluesky Account" class="w-10 h-10 rounded-full"/>
                                     </div>
                                     <div class="flex flex-col gap-y-0">
-                                        <span class="max-w-xs">Display Name</span>
-                                        <span class="max-w-xs text-sm text-muted-foreground">@handle</span>
+                                        <span class="max-w-xs">{userInfo.bskyDisplayName}</span>
+                                        <span class="max-w-xs text-sm text-muted-foreground">@{userInfo.bskyHandle}</span>
                                     </div>
                                     <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-bluesky">
                                         <Toggle aria-label="toggle visible" on:click={toggleBluesky} class="data-[state=on]:bg-transparent data-[state=on]:text-bluesky hover:bg-transparent hover:text-bluesky">
@@ -113,8 +113,8 @@
                                     </div>
                             </div>
                         {:else}
-                            <div class='opacity-100 flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-4 px-2'>
-                                    No Bluesky account connected.
+                            <div class='opacity-50 flex flex-col w-full h-full text-center bg-transparent border-2 border-bluesky rounded-md text-bluesky text-sm py-8 px-2'>
+                                No Bluesky account connected.
                             </div>
                         {/if}
                     </div>

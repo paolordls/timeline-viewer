@@ -47,7 +47,7 @@
                             Disconnect
                         </Button>
                         <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
-                            Cancel
+                            Back
                         </Button>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                                 Connect
                             </Button>
                             <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
-                                Cancel
+                                Back
                             </Button>
                         </div>
                     </div>    
@@ -97,7 +97,7 @@
                             Disconnect
                         </Button>
                         <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
-                            Cancel
+                            Back
                         </Button>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                                 Connect
                             </Button>
                             <Button href="/timeline" class="max-w-xs font-light text-xs text-kaleido" variant="link">
-                                Cancel
+                                Back
                             </Button>
                         </div>
                     </div>
