@@ -2,7 +2,7 @@
 import { EmbedType, Platform, type Post, type PostEmbed } from "$lib/models/Post"
 import { writable, type Writable } from "svelte/store"
 
-const MAXLENGTH = 5
+const MAXLENGTH = 100
 interface TimelineData {
     mastodonTimeline: Post[],
     bskyTimeline: Post[],
