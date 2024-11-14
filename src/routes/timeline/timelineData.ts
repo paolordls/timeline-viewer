@@ -2,7 +2,7 @@
 import { EmbedType, Platform, type Post, type PostEmbed } from "$lib/models/Post"
 import { writable, type Writable } from "svelte/store"
 
-const MAXLENGTH = 100
+const MAXLENGTH = 5
 interface TimelineData {
     mastodonTimeline: Post[],
     bskyTimeline: Post[],
@@ -34,7 +34,7 @@ export async function getMastodonPosts(token: string, instance: string, max_id?:
         }
     }).then(res => {
         if (!res.ok)
-            throw new Error("Retrieval failed")
+            throw new Error(res.statusText)
         return res.json()
     }).catch(error => {
         console.error(error.message)
@@ -60,7 +60,7 @@ export async function getBlueskyPosts(token: string, cursor?: string): Promise<O
         }
     }).then(res => {
         if (!res.ok)
-            throw new Error("Retrieval failed")
+            throw new Error(res.statusText)
         return res.json()
     }).catch(error => {
         console.error(error.message)
@@ -91,21 +91,38 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
 
             //handle embeds
             let embeds: PostEmbed[] = []
-            let counts = {
-                image: 0, //TODO: pull filename of embeds
-                file: 0,
-                video: 0
-            }
+            let imageCount = 1
             for (const embed of post.media_attachments) {
                 switch (embed.type) {
                     case 'image':
                         embeds.push({
                             href: embed.url,
-                            title: `Image ${counts.image}`,
+                            title: `Image ${imageCount}`,
                             type: EmbedType.Image
                         })
-                        counts.image++
+                        imageCount++
                         break;
+                    case 'video':
+                        embeds.push({
+                            href: embed.url,
+                            title: `Video`,
+                            type: EmbedType.Video
+                        })
+                        break
+                    case 'gifv':
+                        embeds.push({
+                            href: embed.url,
+                            title: `Gif`,
+                            type: EmbedType.Gif
+                        })
+                        break
+                    case 'audio':
+                        embeds.push({
+                            href: embed.url,
+                            title: `Audio`,
+                            type: EmbedType.Audio
+                        })
+                        break
                 }
             }
 
@@ -147,6 +164,41 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             )
                 continue
 
+            //get the url from the at-uri
+            const ATURI = post.post.uri.split('/')
+            const RKEY = ATURI.at(-1)
+            const DID = ATURI.at(-3)
+            const profile = post.post.author.handle.split('.')
+            const postURL = `https://bsky.app/profile/${DID}/post/${RKEY}`
+
+            //handle embeds
+            let embeds: PostEmbed[] = []
+            let imageCount = 1
+            if (post.post.embed.images) {
+                for (const image of post.post.embed.images) {
+                    embeds.push({
+                        href: image.fullsize,
+                        title: `Image ${imageCount}`,
+                        type: EmbedType.Image
+                    })
+                }
+            }
+            else if (post.post.embed.thumbnail) {
+                embeds.push({
+                    href: postURL,
+                    title: `Video`,
+                    type: EmbedType.Video
+                })
+            }
+            else if (post.post.embed.external) {
+                embeds.push({
+                    href: postURL,
+                    title: `External link`,
+                    type: EmbedType.Link
+                })
+            }
+
+
             bskyTimeline.push({
                 platform: Platform.Bluesky,
                 posterDisplayName: post.post.author.displayName,
@@ -154,15 +206,14 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
                 posterProfilePicture: post.post.author.avatar,
                 postDateTime: new Date(post.post.record.createdAt),
                 postText: post.post.record.text,
-                // postEmbeds: post.post.embed,  // URLs to embedded media
-                postEmbeds: [],
+                postEmbeds: embeds,
                 postHashtags: [], // Only for Mastodon
                 postEngagement: {
                     likes: post.post.likeCount,
                     shares: post.post.repostCount,
                     comments: post.post.replyCount,
                 },
-                originalPostLink: '',
+                originalPostLink: postURL,
             })
         }
 

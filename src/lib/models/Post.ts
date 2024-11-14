@@ -4,6 +4,7 @@ export enum Platform {
 };
 
 export enum EmbedType {
+    Audio = "audio",
     Link = "link",
     Gif = "gif",
     Video = "video",
