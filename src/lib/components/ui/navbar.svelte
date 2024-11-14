@@ -6,15 +6,15 @@
     import { RefreshCw } from 'lucide-svelte';
     import { Eye } from 'lucide-svelte';
     import { EyeClosed } from 'lucide-svelte';
+    import { isBlueskyToggled } from '../../../stores/blueskyToggle';
+    import { isMastodonToggled } from '../../../stores/mastodonToggle';
 
-    let isMastodonToggled = false;
     function toggleMastodon() {
-        isMastodonToggled = !isMastodonToggled;
+        isMastodonToggled.update(n => !n)
     }
 
-    let isBlueskyToggled = false;
     function toggleBluesky() {
-        isBlueskyToggled = !isBlueskyToggled;
+        isBlueskyToggled.update(n => !n)
     }
 
     export let userInfo: object = {};
@@ -69,7 +69,7 @@
                         
                         <!-- Mastodon -->
                         {#if userInfo.mastodonHandle}
-                            <div class={`${isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-6 px-2`}>
+                            <div class={`${!$isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-6 px-2`}>
                                     <div class="flex flex-col ml-2 mr-4">
                                         <img src={userInfo.mastodonPicture} alt="Mastodon Account" class="w-10 h-10 rounded-full"/>
                                     </div>
@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-mastodon">
                                         <Toggle aria-label="toggle visible" on:click={toggleMastodon} class="data-[state=on]:bg-transparent data-[state=on]:text-mastodon hover:bg-transparent hover:text-mastodon">
-                                            {#if isMastodonToggled}
+                                            {#if !$isMastodonToggled}
                                                 <EyeClosed class="h-6 w-6" />
                                             {:else}
                                                 <Eye class="h-6 w-6" />
@@ -95,7 +95,7 @@
 
                         <!-- Bluesky -->
                         {#if userInfo.bskyHandle}
-                            <div class={`${isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-6 px-2`}>
+                            <div class={`${!$isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-6 px-2`}>
                                     <div class="flex flex-col ml-2 mr-4">
                                         <img src={userInfo.bskyPicture} alt="Bluesky Account" class="w-10 h-10 rounded-full"/>
                                     </div>
@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-bluesky">
                                         <Toggle aria-label="toggle visible" on:click={toggleBluesky} class="data-[state=on]:bg-transparent data-[state=on]:text-bluesky hover:bg-transparent hover:text-bluesky">
-                                            {#if isBlueskyToggled}
+                                            {#if !($isBlueskyToggled)}
                                                 <EyeClosed class="h-6 w-6" />
                                             {:else}
                                                 <Eye class="h-6 w-6" />

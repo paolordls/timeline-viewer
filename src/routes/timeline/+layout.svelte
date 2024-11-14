@@ -25,6 +25,14 @@
         await timelineData.set(await refreshTimeline(data.mastodonToken, data.mastodonInstance, data.bskyToken))
         refreshing.set(false)
     }
+
+    // const toggleMastodon = () => {
+    //     isMastodonToggled = !isMastodonToggled;
+    // }
+
+    // const toggleBluesky = () => {
+    //     isBlueskyToggled = !isBlueskyToggled;
+    // }
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

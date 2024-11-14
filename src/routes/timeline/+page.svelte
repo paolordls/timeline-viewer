@@ -5,6 +5,9 @@
     import { Frown, RefreshCcw } from 'lucide-svelte';
     import { timelineData, refreshing } from "./timelineData";
     export let data
+    import { isBlueskyToggled } from '../../stores/blueskyToggle'
+    import { isMastodonToggled } from "../../stores/mastodonToggle";
+
     timelineData.set(data.timelineData)
 </script>
 
@@ -23,9 +26,22 @@
                 <span class="w-48 mb-2 text-center block">No posts found. Try the refresh button!</span>
             </div>
         {:else}
-            {#each $timelineData.timeline as post}
-                <Post post={post} />
-            {/each}
+            {#if !($isBlueskyToggled) && !($isMastodonToggled)}
+                <Frown class="w-40 h-40 mb-4 opacity-10" />
+                <span class="w-48 mb-2 text-center block">Posts hidden. Toggle the filters to show posts!</span>
+            {:else if !($isBlueskyToggled) && $isMastodonToggled}
+                {#each $timelineData.mastodonTimeline as post}
+                    <Post post={post} />
+                {/each}
+            {:else if $isBlueskyToggled && !($isMastodonToggled)}
+                {#each $timelineData.bskyTimeline as post}
+                    <Post post={post} />
+                {/each}
+            {:else}
+                {#each $timelineData.timeline as post}
+                    <Post post={post} />
+                {/each}
+            {/if}
         {/if}
     {:else}
         <div class="flex flex-col items-center justify-center w-full h-screen">
