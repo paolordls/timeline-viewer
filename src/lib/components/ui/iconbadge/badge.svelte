@@ -6,6 +6,7 @@
 	import ImageIcon from 'lucide-svelte/icons/image';
 	import GifIcon from 'lucide-svelte/icons/image-play';
 	import VideoIcon from 'lucide-svelte/icons/video';
+	import { FileMusic } from "lucide-svelte";	
 
 
 	let className: string | undefined | null = undefined;
@@ -24,6 +25,8 @@
 		IconComponent = GifIcon;
 	} else if (iconType === 'video') {
 		IconComponent = VideoIcon;
+	} else if (iconType === 'audio') {
+		IconComponent = FileMusic;
 	} else {
 		IconComponent = undefined;
 	}

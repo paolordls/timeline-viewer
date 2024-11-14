@@ -4,6 +4,7 @@ export enum Platform {
 };
 
 export enum EmbedType {
+    Audio = "audio",
     Link = "link",
     Gif = "gif",
     Video = "video",
@@ -19,7 +20,7 @@ export interface Post {
     postDateTime: Date;
     postText: string;
     postEmbeds: PostEmbed[];  // URLs to embedded media
-    postHashtags: string[]; // Only for Mastodon
+    postHashtags: Hashtag[]; // Only for Mastodon
     postEngagement: {
         likes: number;
         shares: number;
@@ -32,4 +33,9 @@ export interface PostEmbed {
     href: string,
     title: string,
     type: EmbedType
+}
+
+export interface Hashtag {
+    name: string,
+    url: string
 }
