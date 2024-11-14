@@ -1,10 +1,23 @@
 <script>
     import Navbar from "$lib/components/ui/navbar.svelte";
+    export let data;
+    console.log(data);
+    const userInfo = {
+        mastodonPicture: data.mastodonPicture,
+        mastodonHandle: data.mastodonUsername,
+        mastodonDisplayName: data.mastodonAcct,
+        mastodonInstance: data.mastodonInstance,
+        mastodonPicture: data.mastodonPicture,
+        bskyPicture: data.bskyPicture,
+        bskyHandle: data.bskyHandle,
+        bskyDisplayName: data.bskyDisplayName,
+        bskyPicture: data.bskyPicture,
+    }
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<main class="w-screen">
-    <Navbar />
+<main>
+    <Navbar userInfo={userInfo}/>
     <slot />
 </main>

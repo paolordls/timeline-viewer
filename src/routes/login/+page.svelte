@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Input } from "$lib/components/ui/input";
     import { Button } from "$lib/components/ui/button";
+    import * as Alert from "$lib/components/ui/alert";
+    import { CircleAlert } from 'lucide-svelte';
     export let form;
 </script>
 
@@ -10,24 +12,33 @@
     <div class="w-2/3 h-fit bg-white self-center justify-center content-center space-y-6 py-12 rounded-lg shadow-xl">
         <!-- Kaleido Logo -->
         <div class="flex flex-col items-center space-y-4">
-            <img src="/kaleido-logomark.svg" alt="Kaleido" class="h-24" />
-            <span class="text-center block">Log In</span>
+            <img src="/kaleido-logo.svg" alt="Kaleido" class="h-40" />
         </div>
         <!-- Form -->
         <form method="POST">
+            {#if form?.error}
+                <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full mb-2">
+                    <Alert.Root variant="destructive" class="max-w-xs">
+                        <CircleAlert class="h-4 w-4" />
+                        <Alert.Title>Error</Alert.Title>
+                        <Alert.Description>
+                            {form.error}
+                        </Alert.Description>
+                    </Alert.Root>
+                </div>
+            {/if}
             <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full">
                 <Input type="email" name="email" placeholder="Email" class="max-w-xs"/>
                 <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
-                <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
-                    Log In
-                </Button>
-                <Button type="button" class="max-w-xs font-light text-xs text-kaleido" variant="link">
-                    Forgot Password?
-                </Button>
+                <div class="flex flex-col items-center justify-center gap-y-0 w-full">
+                    <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
+                        Log In
+                    </Button>
+                    <Button class="max-w-xs font-light text-xs text-kaleido" variant="link">
+                        Forgot Password?
+                    </Button>
+                </div>
             </div>
-            {#if form?.error}
-                <p class="error"> Error: {form.error} </p>
-            {/if}
         </form>
     </div>
 </div>
