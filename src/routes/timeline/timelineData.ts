@@ -82,8 +82,6 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
 
         for (const post of mastodonPosts) {
             //do checks
-            if (post.tags)
-                console.log(post.tags)
             max_id = post.id
             if (post.in_reply_to_id || //is a reply
                 post.reblog || //reblog
