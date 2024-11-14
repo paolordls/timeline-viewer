@@ -175,9 +175,9 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
     let timeline: Post[] = mastodonTimeline.concat(bskyTimeline)
     //sort timeline
     timeline.sort((a: Post, b: Post): number => {
-        if (a.postDateTime < b.postDateTime)
-            return -1
         if (a.postDateTime > b.postDateTime)
+            return -1
+        if (a.postDateTime < b.postDateTime)
             return 1
         return 0
     })
