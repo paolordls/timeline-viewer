@@ -36,14 +36,14 @@
                         <div class="text-sm font-light text-gray-500 line-clamp-1 self-center">@{post.posterUsername} ⋅ {dateTime}</div>
                     </div>
                     <div>
-                        <Button size="icon" variant="ghost" class="h-6 w-6">
+                        <!-- <Button size="icon" variant="ghost" class="h-6 w-6">
                             <EllipsisVertical class="h-4 w-4"/>
-                        </Button>
+                        </Button> -->
                     </div>
                 </div>
 
                 {#if post.platform === Platform.Mastodon}
-                <p class="w-auto text-base font-light text-current min-w-0">{@html post.postText}</p>
+                <p class="mastodonPost w-auto text-base font-light text-current min-w-0">{@html post.postText}</p>
                 {:else}
                 <p class="w-auto text-base font-light text-current min-w-0">{post.postText}</p>
                 {/if}
@@ -52,7 +52,7 @@
             {#if post.postEmbeds.length > 0}
                 <div class="flex flex-row flex-wrap gap-1">
                     {#each post.postEmbeds as embed}
-                        <IconBadge href={embed.href} variant="secondary" iconType={embed.type}>
+                        <IconBadge href={embed.href} target="_blank" variant="secondary" iconType={embed.type}>
                             {embed.title}
                         </IconBadge>
                     {/each} 
@@ -62,33 +62,33 @@
             {#if post.postHashtags.length > 0}
                 <div class="flex flex-row flex-wrap gap-1">
                     {#each post.postHashtags as hashtag}
-                        <span class="text-sm text-gray-500 font-light">
-                            #{hashtag}
-                        </span>
+                        <a href="{hashtag.url}" target="_blank" class="text-sm text-gray-500 font-light">
+                            #{hashtag.name}
+                        </a>
                     {/each} 
                 </div>
             {/if}
             
             <div class="flex flex-row gap-x-10 justify-between">
                 <div class="flex flex-row justify-left gap-x-10 min-w-0">
-                    <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
+                    <div class="flex flex-row items-center p-0 gap-1 font-light text-slate-500 text-sm">
                         <Comment class="h-4 w-4"/>
                         {commentCountLabel}
-                    </Button>
+                    </div>
     
-                    <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
+                    <div class="flex flex-row items-center p-0 gap-1 font-light text-slate-500 text-sm">
                         <Like class="h-4 w-4"/>
                         {likeCountLabel}
-                    </Button>
+                    </div>
     
-                    <Button variant="ghost" class="p-0 gap-1 font-light text-slate-500 text-sm">
+                    <div class="flex flex-row items-center p-0 gap-1 font-light text-slate-500 text-sm">
                         <Share class="h-4 w-4"/>
                         {shareCountLabel}
-                    </Button>
+                    </div>
                 </div>
 
-                <div class="flex flex-row items-center gap-1">
-                    <a class="underline text-gray-500 text-xs font-extralight line-clamp-1 italic" href={post.originalPostLink}>via</a>
+                <a href={post.originalPostLink} target="_blank" class="flex flex-row items-center gap-1">
+                    <span class="underline text-gray-500 text-xs font-extralight line-clamp-1 italic">via</span>
 
                     {#if post.platform === Platform.Mastodon}
                         <img src="/mastodon_small.svg" class="h-4 w-4" alt="Mastodon logo"/>
@@ -96,8 +96,20 @@
                     {#if post.platform === Platform.Bluesky}
                         <img src="bluesky_small.svg" class="h-4 w-4" alt="Bluesky logo"/>
                     {/if}
-                </div>
+                </a>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .mastodonPost :global(i) {
+        font-style: italic !important;
+    }
+    .mastodonPost :global(b) {
+        font-weight: bold !important;
+    }
+    .mastodonPost :global(a > span){
+        text-decoration: underline !important;
+    }
+</style>

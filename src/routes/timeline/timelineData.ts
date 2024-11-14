@@ -110,9 +110,6 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             }
 
             //handle hashtags
-            let hashtags: string[] = []
-            for (const tag of post.tags)
-                hashtags.push(tag.name)
 
             mastodonTimeline.push({
                 platform: Platform.Mastodon,
@@ -122,7 +119,7 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
                 postDateTime: new Date(post.created_at),
                 postText: post.content,
                 postEmbeds: embeds,  // URLs to embedded media
-                postHashtags: hashtags, // Only for Mastodon
+                postHashtags: post.tags, // Only for Mastodon
                 postEngagement: {
                     likes: post.favourites_count,
                     shares: post.reblogs_count,
