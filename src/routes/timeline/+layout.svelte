@@ -7,9 +7,11 @@
         mastodonHandle: data.mastodonUsername,
         mastodonDisplayName: data.mastodonAcct,
         mastodonInstance: data.mastodonInstance,
+        mastodonPicture: data.mastodonPicture,
         bskyPicture: data.bskyPicture,
         bskyHandle: data.bskyHandle,
-        bskyDisplayName: data.bskyDisplayName
+        bskyDisplayName: data.bskyDisplayName,
+        bskyPicture: data.bskyPicture,
     }
 </script>
 

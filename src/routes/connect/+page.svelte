@@ -37,7 +37,7 @@
                 <!-- Connected -->
                 {#if data.mastodonUsername}
                 <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                    <img src="/pfp.svg" alt="Profile" class="w-16 h-16 rounded-full" />
+                    <img src="{data.mastodonPicture}" alt="Profile" class="w-16 h-16 rounded-full" />
                     <div class="flex flex-col items-center justify-center gap-y-0 w-full">
                         <span class="max-w-xs">{data.mastodonDisplayName}</span>
                         <span class="max-w-xs text-sm text-muted-foreground">@{data.mastodonUsername}</span>
@@ -87,7 +87,7 @@
                 <!-- Connected -->
                 {#if data.bskyHandle}
                 <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                    <img src="/pfp.svg" alt="Profile" class="w-16 h-16 rounded-full" />
+                    <img src="{data.bskyPicture}" alt="Profile" class="w-16 h-16 rounded-full" />
                     <div class="flex flex-col items-center justify-center gap-y-0 w-full">
                         <span class="max-w-xs">{data.bskyDisplayName}</span>
                         <span class="max-w-xs text-sm text-muted-foreground">@{data.bskyHandle}</span>

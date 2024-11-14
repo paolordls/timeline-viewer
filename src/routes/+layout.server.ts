@@ -21,7 +21,8 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
                     ...userInfo,
                     mastodonUsername: res.username,
                     mastodonAcct: res.acct,
-                    mastodonDisplayName: res.display_name
+                    mastodonDisplayName: res.display_name,
+                    mastodonPicture: res.avatar_static,
                 }
             })
             .catch(error => {
@@ -54,7 +55,6 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
             })})
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 if (res.id) { //set if correct
                     cookies.set("mastodonToken", accessToken, { path: "/" })
                     cookies.set("mastodonId", res.id, { path: "/" })
@@ -62,7 +62,8 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
                         ...userInfo,
                         mastodonUsername: res.username,
                         mastodonAcct: res.acct,
-                        mastodonDisplayName: res.display_name
+                        mastodonDisplayName: res.display_name,
+                        mastodonPicture: res.avatar_static,
                     }
                 }
                 else throw new Error("Access token is invalid.")
@@ -86,7 +87,8 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
                     ...userInfo,
                     bskyDid: res.did,
                     bskyHandle: res.handle,
-                    bskyDisplayName: res.displayName
+                    bskyDisplayName: res.displayName,
+                    bskyPicture: res.avatar
                 }
             })
             .catch(error => {
