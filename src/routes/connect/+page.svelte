@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Input } from "$lib/components/ui/input";
+    import { Label } from "$lib/components/ui/label";
     import { Button } from "$lib/components/ui/button";
     import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs"
     import { enhance } from "$app/forms";
@@ -67,7 +68,8 @@
                         </div>
                     {/if}
                     <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                        <Input name="instance" placeholder="URL" class="max-w-xs"/>
+                        <Label for="instance" class="items-start max-w-xs w-full">Instance</Label>
+                        <Input name="instance" placeholder="mastodon.social" class="max-w-xs w-full"/>
                         <div class="flex flex-col items-center justify-center gap-y-0 w-full">
                             <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                                 Connect
@@ -117,8 +119,10 @@
                         </div>
                     {/if}
                     <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                        <Input name="handle" placeholder="Handle" class="max-w-xs"/>
-                        <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
+                        <Label for="handle" class="items-start max-w-xs w-full">Handle</Label>
+                        <Input name="handle" placeholder="user.bsky.social" class="max-w-xs w-full"/>
+                        <Label for="password" class="items-start max-w-xs w-full">Password</Label>
+                        <Input name="password" placeholder="••••••••" class="max-w-xs w-full"/>
                         <div class="flex flex-col items-center justify-center gap-y-0 w-full">
                             <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                                 Connect

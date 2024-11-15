@@ -1,8 +1,10 @@
 <script lang="ts">
     import { Input } from "$lib/components/ui/input";
+    import { Label } from "$lib/components/ui/label";
     import { Button } from "$lib/components/ui/button";
     import * as Alert from "$lib/components/ui/alert";
     import { CircleAlert } from 'lucide-svelte';
+    
     export let form;
 </script>
 
@@ -28,15 +30,17 @@
                 </div>
             {/if}
             <div class="flex flex-col items-center justify-center gap-y-2 px-8 w-full">
-                <Input type="email" name="email" placeholder="Email" class="max-w-xs"/>
-                <Input type="password" name="password" placeholder="Password" class="max-w-xs"/>
+                <Label for="email" class="items-start max-w-xs w-full">Email</Label>
+                <Input type="email" name="email" placeholder="test@test.com" class="max-w-xs"/>
+                <Label for="password" class="items-start max-w-xs w-full">Password</Label>
+                <Input type="password" name="password" placeholder="••••••••" class="max-w-xs"/>
                 <div class="flex flex-col items-center justify-center gap-y-0 w-full">
                     <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                         Log In
                     </Button>
-                    <Button class="max-w-xs font-light text-xs text-kaleido" variant="link">
+                    <!-- <Button class="max-w-xs font-light text-xs text-kaleido" variant="link">
                         Forgot Password?
-                    </Button>
+                    </Button> -->
                 </div>
             </div>
         </form>
