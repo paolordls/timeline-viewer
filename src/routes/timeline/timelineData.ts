@@ -174,6 +174,7 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             //handle embeds
             let embeds: PostEmbed[] = []
             let imageCount = 1
+            if (post.post.embed){
             if (post.post.embed.images) {
                 for (const image of post.post.embed.images) {
                     embeds.push({
@@ -196,7 +197,7 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
                     title: `External link`,
                     type: EmbedType.Link
                 })
-            }
+            }}
 
 
             bskyTimeline.push({
