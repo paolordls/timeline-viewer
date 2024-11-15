@@ -27,8 +27,10 @@
             </div>
         {:else}
             {#if !($isBlueskyToggled) && !($isMastodonToggled)}
+            <div class="flex flex-col items-center justify-center w-full h-screen">
                 <Frown class="w-40 h-40 mb-4 opacity-10" />
                 <span class="w-48 mb-2 text-center block">Posts hidden. Toggle the filters to show posts!</span>
+            </div>
             {:else if !($isBlueskyToggled) && $isMastodonToggled}
                 {#each $timelineData.mastodonTimeline as post}
                     <Post post={post} />
