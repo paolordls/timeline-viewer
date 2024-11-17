@@ -69,9 +69,9 @@
                         
                         <!-- Mastodon -->
                         {#if userInfo.mastodonHandle}
-                            <div class={`${!$isMastodonToggled ? 'opacity-50' : 'opacity-100'}  flex flex-row w-full h-full content-center bg-transparent border-2 py-6 px-2 border-mastodon rounded-md text-mastodon py-6 px-2`}>
+                            <div class={`${!$isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-6 px-2`}>
                                     <div class="flex-shrink-0 flex flex-col p-2">
-                                        <img src={userInfo.mastodonPicture} alt="Mastodon Account" class="w-10 h-10 rounded-full"/>
+                                        <img src={userInfo.mastodonPicture} alt="Mastodon Account" class="w-10 h-10 rounded-full object-cover"/>
                                     </div>
                                     <div class="flex-grow flex flex-col align-left max-w-full w-10">
                                         <div class="max-w-xs text-ellipsis overflow-hidden">{userInfo.mastodonDisplayName || userInfo.mastodonHandle}</div>
@@ -97,7 +97,7 @@
                         {#if userInfo.bskyHandle}
                             <div class={`${!$isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-6 px-2`}>
                                     <div class="flex-shrink-0 flex flex-col p-2">
-                                        <img src={userInfo.bskyPicture} alt="Bluesky Account" class="w-10 h-10 rounded-full"/>
+                                        <img src={userInfo.bskyPicture} alt="Bluesky Account" class="w-10 h-10 rounded-full object-cover"/>
                                     </div>
                                     <div class="flex-grow flex flex-col align-left max-w-full w-10">
                                         <div class="text-ellipsis overflow-hidden">{userInfo.bskyDisplayName}</div>

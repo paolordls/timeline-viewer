@@ -174,17 +174,9 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             //handle embeds
             let embeds: PostEmbed[] = []
             let imageCount = 1
-            if (post.post.embed) {
-                if (post.post.embed.images) {
-                    for (const image of post.post.embed.images) {
-                        embeds.push({
-                            href: image.fullsize,
-                            title: `Image ${imageCount}`,
-                            type: EmbedType.Image
-                        })
-                    }
-                }
-                else if (post.post.embed.thumbnail) {
+            if (post.post.embed){
+            if (post.post.embed.images) {
+                for (const image of post.post.embed.images) {
                     embeds.push({
                         href: postURL,
                         title: `Video`,
@@ -199,6 +191,20 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
                     })
                 }
             }
+            else if (post.post.embed.thumbnail) {
+                embeds.push({
+                    href: postURL,
+                    title: `Video`,
+                    type: EmbedType.Video
+                })
+            }
+            else if (post.post.embed.external) {
+                embeds.push({
+                    href: postURL,
+                    title: `External link`,
+                    type: EmbedType.Link
+                })
+            }}
 
             bskyTimeline.push({
                 platform: Platform.Bluesky,
