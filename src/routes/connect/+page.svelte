@@ -68,7 +68,7 @@
                         </div>
                     {/if}
                     <div class="flex flex-col items-center justify-center gap-y-2 w-full">
-                        <Label for="instance" class="items-start max-w-xs w-full">Instance</Label>
+                        <Label for="instance" class="items-start max-w-xs w-full">Instance URL</Label>
                         <Input name="instance" placeholder="mastodon.social" class="max-w-xs w-full"/>
                         <div class="flex flex-col items-center justify-center gap-y-0 w-full">
                             <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
