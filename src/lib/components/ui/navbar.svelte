@@ -36,9 +36,9 @@
                 <!-- User Details -->
                 <div class="flex flex-col mb-2">
                     <Avatar.Root class="mb-2">
-                        <Avatar.Fallback class="w-10 h-10 bg-kaleido text-white border-2 border-transparent">RF</Avatar.Fallback>
+                        <Avatar.Fallback class="w-10 h-10 bg-kaleido text-white border-2 border-transparent align-left">RF</Avatar.Fallback>
                     </Avatar.Root>
-                    <Sheet.Header class="font-medium">
+                    <Sheet.Header class="font-medium text-left">
                         Rom Feria
                     </Sheet.Header>
                     <Sheet.Description>
@@ -70,14 +70,14 @@
                         <!-- Mastodon -->
                         {#if userInfo.mastodonHandle}
                             <div class={`${!$isMastodonToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-mastodon rounded-md text-mastodon py-6 px-2`}>
-                                    <div class="flex flex-col ml-2 mr-4">
+                                    <div class="flex-shrink-0 flex flex-col p-2">
                                         <img src={userInfo.mastodonPicture} alt="Mastodon Account" class="w-10 h-10 rounded-full object-cover"/>
                                     </div>
-                                    <div class="flex flex-col gap-y-0">
-                                        <span class="max-w-xs">{userInfo.mastodonDisplayName || userInfo.mastodonHandle}</span>
-                                        <span class="max-w-xs text-sm text-muted-foreground">@{userInfo.mastodonHandle}@{userInfo.mastodonInstance}</span>
+                                    <div class="flex-grow flex flex-col align-left max-w-full w-10">
+                                        <div class="max-w-xs text-ellipsis overflow-hidden">{userInfo.mastodonDisplayName || userInfo.mastodonHandle}</div>
+                                        <div class="max-w-xs text-sm text-muted-foreground text-ellipsis overflow-hidden">@{userInfo.mastodonHandle}@{userInfo.mastodonInstance}</div>
                                     </div>
-                                    <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-mastodon">
+                                    <div class="flex-shrink-0 flex flex-col bg-transparent text-mastodon">
                                         <Toggle aria-label="toggle visible" on:click={toggleMastodon} class="data-[state=on]:bg-transparent data-[state=on]:text-mastodon hover:bg-transparent hover:text-mastodon">
                                             {#if !$isMastodonToggled}
                                                 <EyeClosed class="h-6 w-6" />
@@ -96,14 +96,14 @@
                         <!-- Bluesky -->
                         {#if userInfo.bskyHandle}
                             <div class={`${!$isBlueskyToggled ? 'opacity-50' : 'opacity-100'} flex flex-row w-full h-full content-center bg-transparent border-2 border-bluesky rounded-md text-bluesky py-6 px-2`}>
-                                    <div class="flex flex-col ml-2 mr-4">
+                                    <div class="flex-shrink-0 flex flex-col p-2">
                                         <img src={userInfo.bskyPicture} alt="Bluesky Account" class="w-10 h-10 rounded-full object-cover"/>
                                     </div>
-                                    <div class="flex flex-col gap-y-0">
-                                        <span class="max-w-xs">{userInfo.bskyDisplayName}</span>
-                                        <span class="max-w-xs text-sm text-muted-foreground">@{userInfo.bskyHandle}</span>
+                                    <div class="flex-grow flex flex-col align-left max-w-full w-10">
+                                        <div class="text-ellipsis overflow-hidden">{userInfo.bskyDisplayName}</div>
+                                        <div class="text-sm text-muted-foreground text-ellipsis overflow-hidden">@{userInfo.bskyHandle}</div>
                                     </div>
-                                    <div class="flex flex-col mr-0 ml-auto mt-auto mb-auto bg-transparent text-bluesky">
+                                    <div class="flex-shrink-0 flex flex-col bg-transparent text-bluesky">
                                         <Toggle aria-label="toggle visible" on:click={toggleBluesky} class="data-[state=on]:bg-transparent data-[state=on]:text-bluesky hover:bg-transparent hover:text-bluesky">
                                             {#if !($isBlueskyToggled)}
                                                 <EyeClosed class="h-6 w-6" />
