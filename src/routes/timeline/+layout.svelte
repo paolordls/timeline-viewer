@@ -40,7 +40,7 @@
 <main>
     <div class="min-h-screen bg-white flex justify-center">
         <!-- Main App Container -->
-        <div class="w-full max-w-xl bg-white border-0 xl:border-2 border-solid border-gray-100">
+        <div class="w-full max-w-screen-md bg-white border-0 md:border-2 border-solid border-gray-100">
             <Navbar userInfo={userInfo} refreshFunction={catchRefreshClick}/>
             <slot/>
         </div>
