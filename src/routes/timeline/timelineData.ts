@@ -183,13 +183,13 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
                         type: EmbedType.Video
                     })
                 }
-                else if (post.post.embed.external) {
-                    embeds.push({
-                        href: postURL,
-                        title: `External link`,
-                        type: EmbedType.Link
-                    })
-                }
+            }
+            else if (post.post.embed.external) {
+                embeds.push({
+                    href: postURL,
+                    title: `External link`,
+                    type: EmbedType.Link
+                })
             }
             else if (post.post.embed.thumbnail) {
                 embeds.push({
