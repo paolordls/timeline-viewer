@@ -1,4 +1,5 @@
 import { fail, redirect, type Actions } from "@sveltejs/kit";
+import { SECURE } from "$env/static/private"
 
 export const actions = {
     default: async ({ request, cookies }) => {
@@ -8,7 +9,7 @@ export const actions = {
 
         //TODO: hash the password :/
         if (email === "test@test.com" && password === "test") {
-            cookies.set("LoggedIn", "True", { path: "/" })
+            cookies.set("LoggedIn", "True", { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
             redirect(303, "/timeline")
         }
         else
