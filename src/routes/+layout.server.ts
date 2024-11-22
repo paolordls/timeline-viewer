@@ -1,4 +1,4 @@
-import { SITE_URI } from '$env/static/private';
+import { SITE_URI, SECURE } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from "./$types";
 
@@ -56,8 +56,8 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
             .then(res => res.json())
             .then(res => {
                 if (res.id) { //set if correct
-                    cookies.set("mastodonToken", accessToken, { path: "/" })
-                    cookies.set("mastodonId", res.id, { path: "/" })
+                    cookies.set("mastodonToken", accessToken, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
+                    cookies.set("mastodonId", res.id, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
                     userInfo = {
                         ...userInfo,
                         mastodonUsername: res.username,
