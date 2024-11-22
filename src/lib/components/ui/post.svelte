@@ -69,8 +69,8 @@
                 </div>
             {/if}
             
-            <div class="flex flex-row gap-x-10 justify-between">
-                <div class="flex flex-row justify-left gap-x-10 min-w-0">
+            <div class="flex flex-row justify-between items-center gap-8 sm:gap-16 w-auto">
+                <div class="flex flex-row justify-left min-w-0 flex-grow justify-between items-center">
                     <div class="flex flex-row items-center p-0 gap-1 font-light text-slate-500 text-sm">
                         <Comment class="h-4 w-4"/>
                         {commentCountLabel}
@@ -87,8 +87,8 @@
                     </div>
                 </div>
 
-                <a href={post.originalPostLink} target="_blank" class="flex flex-row items-center gap-1">
-                    <span class="underline text-gray-500 text-xs font-extralight line-clamp-1 italic">via</span>
+                <a href={post.originalPostLink} target="_blank" class="flex flex-row items-center gap-1 flex-shrink-0">
+                    <span class="underline text-gray-500 text-xs font-extralight line-clamp-1 italic truncate">via</span>
 
                     {#if post.platform === Platform.Mastodon}
                         <img src="/mastodon_small.svg" class="h-4 w-4" alt="Mastodon logo"/>

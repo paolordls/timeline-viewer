@@ -178,11 +178,18 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             if (post.post.embed.images) {
                 for (const image of post.post.embed.images) {
                     embeds.push({
-                        href: image.fullsize,
-                        title: `Image ${imageCount}`,
-                        type: EmbedType.Image
+                        href: postURL,
+                        title: `Video`,
+                        type: EmbedType.Video
                     })
                 }
+            }
+            else if (post.post.embed.external) {
+                embeds.push({
+                    href: postURL,
+                    title: `External link`,
+                    type: EmbedType.Link
+                })
             }
             else if (post.post.embed.thumbnail) {
                 embeds.push({
@@ -198,7 +205,6 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
                     type: EmbedType.Link
                 })
             }}
-
 
             bskyTimeline.push({
                 platform: Platform.Bluesky,

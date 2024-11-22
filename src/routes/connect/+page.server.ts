@@ -1,4 +1,4 @@
-import { SITE_URI } from '$env/static/private';
+import { SITE_URI, SECURE } from '$env/static/private';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
@@ -68,9 +68,9 @@ export const actions = {
                 redirect_uri: SITE_URI
             }).toString()
 
-            cookies.set("mastodonClientId", id, { path: "/" })
-            cookies.set("mastodonClientSecret", secret, { path: "/" })
-            cookies.set("mastodonInstance", instance, {path: "/"})
+            cookies.set("mastodonClientId", id, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
+            cookies.set("mastodonClientSecret", secret, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
+            cookies.set("mastodonInstance", instance, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
         }).catch(error => {
             failure = error.message
         })
@@ -124,9 +124,9 @@ export const actions = {
             .then(res => res.json())
             .then(res => {
                 if (res.did) { //set if correct
-                    cookies.set("bskyToken", res.accessJwt, { path: "/" })
-                    cookies.set("bskyRefreshToken", res.refreshJwt, { path: "/" })
-                    cookies.set("bskyDid", res.did, { path: "/" })
+                    cookies.set("bskyToken", res.accessJwt, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
+                    cookies.set("bskyRefreshToken", res.refreshJwt, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
+                    cookies.set("bskyDid", res.did, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
                 } else if (res.error)
                     return fail(401, {
                         error: {

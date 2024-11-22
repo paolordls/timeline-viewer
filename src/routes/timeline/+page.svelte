@@ -13,7 +13,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="flex flex-col items-center justify-center w-full">
+
+<div class="flex flex-col items-center justify-center w-full min-h-screen">
     {#if (data.bskyHandle || data.mastodonUsername)}
         {#if $refreshing}
             <div class="flex flex-col items-center justify-center w-full h-screen">

@@ -38,6 +38,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <main>
-    <Navbar userInfo={userInfo} refreshFunction={catchRefreshClick}/>
-    <slot/>
+    <div class="min-h-screen bg-white flex justify-center">
+        <!-- Main App Container -->
+        <div class="w-full max-w-screen-md bg-white border-0 md:border-2 border-solid border-gray-100">
+            <Navbar userInfo={userInfo} refreshFunction={catchRefreshClick}/>
+            <slot/>
+        </div>
+    </div>
 </main>
