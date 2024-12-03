@@ -1,7 +1,7 @@
 import { redirect, type Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
-	if (event.url.pathname === "/" && event.url.searchParams.has("code")) {
+    if (event.url.pathname === "/connect" && event.url.searchParams.has("code")) {
         event.locals.mastodonCode = event.url.searchParams.get("code")
     }
 

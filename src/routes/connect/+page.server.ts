@@ -41,9 +41,9 @@ export const actions = {
         //register app to instance
         const appRegisterData = new FormData();
         appRegisterData.append("client_name", "timeline-viewer")
-        appRegisterData.append("redirect_uris[]", "http://localhost:5173") //local testing
-        appRegisterData.append("redirect_uris[]", "https://timeline-viewer-seven.vercel.app") //production
-        appRegisterData.append("redirect_uris[]", "https://timeline-viewer-git-dev-jrdelossantos-upeduphs-projects.vercel.app") //staging
+        appRegisterData.append("redirect_uris[]", "http://localhost:5173/connect") //local testing
+        appRegisterData.append("redirect_uris[]", "https://timeline-viewer-seven.vercel.app/connect") //production
+        appRegisterData.append("redirect_uris[]", "https://timeline-viewer-git-dev-jrdelossantos-upeduphs-projects.vercel.app/connect") //staging
         appRegisterData.append("website", "https://timeline-viewer-seven.vercel.app")
 
 
