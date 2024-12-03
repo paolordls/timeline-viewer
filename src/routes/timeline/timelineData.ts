@@ -226,7 +226,8 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             })
         }
 
-        if (max_id = blueskyFeed.cursor)
+        console.log(blueskyFeed.cursor)
+        if (!blueskyFeed.cursor || max_id >= blueskyFeed.cursor)
             break
         max_id = blueskyFeed.cursor;
     }
