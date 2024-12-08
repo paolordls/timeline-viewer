@@ -3,10 +3,10 @@ import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from "./$types";
 import { refreshBskyToken } from '$lib/bluesky';
 
-export const load: PageServerLoad = async ({ route, locals, cookies }) => {  
-    if (cookies.get("LoggedIn") !== "True" && route.id !== "/login") 
+export const load: PageServerLoad = async ({ route, locals, cookies }) => {
+    if (cookies.get("LoggedIn") !== "True" && route.id !== "/login")
         redirect(303, "/login")
-    
+
     //check if the cookie is set before checking the code
     //so it only works once
     let userInfo = {}
@@ -54,10 +54,10 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
 
         // check and refresh bsky token
         const bskyTokens = await refreshBskyToken(cookies.get("bskyToken"), cookies.get("bskyRefreshToken"))
-        if (bskyTokens.status === "refreshed"){
+        if (bskyTokens.status === "refreshed") {
             cookies.set("bskyToken", bskyTokens.token, { path: "/", httpOnly: true, secure: true, maxAge: 172800 })
             cookies.set("bskyRefreshToken", bskyTokens.refreshToken, { path: "/", httpOnly: true, secure: true, maxAge: 172800 })
-        } 
+        }
 
         console.log(`token status: ${bskyTokens.status}`)
     }
