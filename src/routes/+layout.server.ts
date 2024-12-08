@@ -1,6 +1,7 @@
 import { SITE_URI, SECURE } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from "./$types";
+import { refreshBskyToken } from '$lib/bluesky';
 
 export const load: PageServerLoad = async ({ route, locals, cookies }) => {  
     if (cookies.get("LoggedIn") !== "True" && route.id !== "/login") 
@@ -94,10 +95,16 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
             .catch(error => {
                 console.error(error)
             })
-    }
 
-    // TO DO: check token expiry and refresh
-    //  
+        // check and refresh bsky token
+        const bskyTokens = await refreshBskyToken(cookies.get("bskyToken"), cookies.get("bskyRefreshToken"))
+        if (bskyTokens.status === "refreshed"){
+            cookies.set("bskyToken", bskyTokens.token, { path: "/", httpOnly: true, secure: true, maxAge: 172800 })
+            cookies.set("bskyRefreshToken", bskyTokens.refreshToken, { path: "/", httpOnly: true, secure: true, maxAge: 172800 })
+        } 
+
+        console.log(`token status: ${bskyTokens.status}`)
+    }
 
     return {
         ...userInfo,
