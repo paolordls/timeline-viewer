@@ -1,11 +1,12 @@
 import { SITE_URI, SECURE } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from "./$types";
+import { refreshBskyToken } from '$lib/bluesky';
 
-export const load: PageServerLoad = async ({ route, locals, cookies }) => {  
-    if (cookies.get("LoggedIn") !== "True" && route.id !== "/login") 
+export const load: PageServerLoad = async ({ route, locals, cookies }) => {
+    if (cookies.get("LoggedIn") !== "True" && route.id !== "/login")
         redirect(303, "/login")
-    
+
     //check if the cookie is set before checking the code
     //so it only works once
     let userInfo = {}
@@ -30,50 +31,6 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
             })
     }
 
-    //check if a mastodon code was provided
-    if (locals.mastodonCode) {
-        //get an access token
-        const mastodonAccess = new FormData();
-        mastodonAccess.append("client_id", cookies.get("mastodonClientId"))
-        mastodonAccess.append("client_secret", cookies.get("mastodonClientSecret"))
-        mastodonAccess.append("redirect_uri", SITE_URI)
-        mastodonAccess.append("grant_type", "authorization_code")
-        mastodonAccess.append("code", locals.mastodonCode)
-
-        let accessToken : string | null = null
-        await fetch("https://mastodon.social/oauth/token", {
-            method: "POST",
-            body: mastodonAccess
-        })
-            .then(res => res.json())
-            .then(res => {
-                accessToken = res.access_token
-                return fetch("https://mastodon.social/api/v1/accounts/verify_credentials", { //verify access token
-                headers: {
-                    "Authorization": `Bearer ${res.access_token}`
-                }
-            })})
-            .then(res => res.json())
-            .then(res => {
-                if (res.id) { //set if correct
-                    cookies.set("mastodonToken", accessToken, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
-                    cookies.set("mastodonId", res.id, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
-                    userInfo = {
-                        ...userInfo,
-                        mastodonUsername: res.username,
-                        mastodonAcct: res.acct,
-                        mastodonDisplayName: res.display_name,
-                        mastodonPicture: res.avatar_static,
-                    }
-                }
-                else throw new Error("Access token is invalid.")
-            })
-            .catch(error => {
-                //do something
-                console.error(error)
-            })
-    }
-
     // BLUESKY
 
     //check if the cookie is set before checking the code
@@ -94,10 +51,16 @@ export const load: PageServerLoad = async ({ route, locals, cookies }) => {
             .catch(error => {
                 console.error(error)
             })
-    }
 
-    // TO DO: check token expiry and refresh
-    //  
+        // check and refresh bsky token
+        const bskyTokens = await refreshBskyToken(cookies.get("bskyToken"), cookies.get("bskyRefreshToken"))
+        if (bskyTokens.status === "refreshed") {
+            cookies.set("bskyToken", bskyTokens.token, { path: "/", httpOnly: true, secure: true, maxAge: 172800 })
+            cookies.set("bskyRefreshToken", bskyTokens.refreshToken, { path: "/", httpOnly: true, secure: true, maxAge: 172800 })
+        }
+
+        console.log(`token status: ${bskyTokens.status}`)
+    }
 
     return {
         ...userInfo,

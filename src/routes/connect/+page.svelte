@@ -122,7 +122,7 @@
                         <Label for="handle" class="items-start max-w-xs w-full">Handle</Label>
                         <Input name="handle" placeholder="user.bsky.social" class="max-w-xs w-full"/>
                         <Label for="password" class="items-start max-w-xs w-full">Password</Label>
-                        <Input name="password" placeholder="••••••••" class="max-w-xs w-full"/>
+                        <Input name="password" type="password" placeholder="••••••••" class="max-w-xs w-full"/>
                         <div class="flex flex-col items-center justify-center gap-y-0 w-full">
                             <Button type="submit" class="max-w-xs w-full bg-kaleido border-2 border-transparent hover:border-kaleido hover:bg-transparent hover:text-kaleido">
                                 Connect

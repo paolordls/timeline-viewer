@@ -174,37 +174,39 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             //handle embeds
             let embeds: PostEmbed[] = []
             let imageCount = 1
-            if (post.post.embed){
-            if (post.post.embed.images) {
-                for (const image of post.post.embed.images) {
+            if (post.post.embed) {
+                if (post.post.embed.images) {
+                    for (const image of post.post.embed.images) {
+                        embeds.push({
+                            href: postURL,
+                            title: `Image ${imageCount}`,
+                            type: EmbedType.Video
+                        })
+                        imageCount++
+                    }
+                }
+                else if (post.post.embed.external) {
+                    embeds.push({
+                        href: postURL,
+                        title: `External link`,
+                        type: EmbedType.Link
+                    })
+                }
+                else if (post.post.embed.thumbnail) {
                     embeds.push({
                         href: postURL,
                         title: `Video`,
                         type: EmbedType.Video
                     })
                 }
+                else if (post.post.embed.external) {
+                    embeds.push({
+                        href: postURL,
+                        title: `External link`,
+                        type: EmbedType.Link
+                    })
+                }
             }
-            else if (post.post.embed.external) {
-                embeds.push({
-                    href: postURL,
-                    title: `External link`,
-                    type: EmbedType.Link
-                })
-            }
-            else if (post.post.embed.thumbnail) {
-                embeds.push({
-                    href: postURL,
-                    title: `Video`,
-                    type: EmbedType.Video
-                })
-            }
-            else if (post.post.embed.external) {
-                embeds.push({
-                    href: postURL,
-                    title: `External link`,
-                    type: EmbedType.Link
-                })
-            }}
 
             bskyTimeline.push({
                 platform: Platform.Bluesky,
@@ -224,11 +226,28 @@ export const refreshTimeline = async (mastodonToken: string, mastodonInstance: s
             })
         }
 
+        console.log(blueskyFeed.cursor)
+        if (!blueskyFeed.cursor || max_id >= blueskyFeed.cursor)
+            break
         max_id = blueskyFeed.cursor;
     }
 
     let timeline: Post[] = mastodonTimeline.concat(bskyTimeline)
-    //sort timeline
+    //sort timelines
+    mastodonTimeline.sort((a: Post, b: Post): number => {
+        if (a.postDateTime > b.postDateTime)
+            return -1
+        if (a.postDateTime < b.postDateTime)
+            return 1
+        return 0
+    })
+    bskyTimeline.sort((a: Post, b: Post): number => {
+        if (a.postDateTime > b.postDateTime)
+            return -1
+        if (a.postDateTime < b.postDateTime)
+            return 1
+        return 0
+    })
     timeline.sort((a: Post, b: Post): number => {
         if (a.postDateTime > b.postDateTime)
             return -1
