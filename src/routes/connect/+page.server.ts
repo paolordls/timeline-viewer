@@ -68,21 +68,12 @@ export const actions = {
                     redirect_uri: SITE_URI
                 }).toString()
 
-<<<<<<< HEAD
                 cookies.set("mastodonClientId", id, { path: "/", ...(SECURE === "FALSE" && { secure: false }) })
                 cookies.set("mastodonClientSecret", secret, { path: "/", ...(SECURE === "FALSE" && { secure: false }) })
                 cookies.set("mastodonInstance", instance, { path: "/", ...(SECURE === "FALSE" && { secure: false }) })
             }).catch(error => {
                 failure = error.message
             })
-=======
-            cookies.set("mastodonClientId", id, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
-            cookies.set("mastodonClientSecret", secret, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
-            cookies.set("mastodonInstance", instance, { path: "/", ...(SECURE === "FALSE" && {secure: false}) })
-        }).catch(error => {
-            failure = error.message
-        })
->>>>>>> main
 
         if (failure)
             return fail(400, {
